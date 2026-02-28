@@ -16,13 +16,15 @@
   "column_break_ddqq",
   "technician_name",
   "receiving_date",
-  "item_image",
-  "image_url",
+  "failure_description",
   "section_break_jxcb",
   "source_warehouse",
+  "agent",
+  "mobile",
   "target_warehouse",
   "column_break_ecxc",
-  "failure_description",
+  "image_url",
+  "item_image",
   "section_break_cfek",
   "amended_from",
   "naming_series",
@@ -316,6 +318,16 @@
    "label": "Daigram Preview",
    "options": "daigram_image",
    "read_only": 1
+  },
+  {
+   "fieldname": "agent",
+   "fieldtype": "Data",
+   "label": "Agent"
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "label": "Mobile"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -327,7 +339,7 @@
    "link_fieldname": "job_cards"
   }
  ],
- "modified": "2026-02-28 12:47:04.411718",
+ "modified": "2026-02-28 13:40:22.992120",
  "modified_by": "Administrator",
  "module": "Tac",
  "name": "Job Cards",
