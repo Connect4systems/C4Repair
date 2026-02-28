@@ -100,11 +100,26 @@ class JobCards(Document):
             default_target_warehouse = frappe.db.get_single_value("TAC Settings", "default_target_warehouse")
             bom_item_meta = frappe.get_meta("BOM Item")
 
-            diagram_fieldname = None
-            if bom_item_meta.has_field("daigram_number"):
-                diagram_fieldname = "daigram_number"
-            elif bom_item_meta.has_field("custom_daigram_number"):
-                diagram_fieldname = "custom_daigram_number"
+            diagram_field_candidates = [
+                fieldname
+                for fieldname in (
+                    "daigram_number",
+                    "custom_daigram_number",
+                    "diagram_number",
+                    "custom_diagram_number",
+                )
+                if bom_item_meta.has_field(fieldname)
+            ]
+
+            bom_item_fields = ["name", "idx", "item_code"] + diagram_field_candidates
+            bom_item_rows = frappe.get_all(
+                "BOM Item",
+                filters={"parent": bom_doc.name},
+                fields=bom_item_fields,
+                order_by="idx asc"
+            )
+            bom_item_by_name = {d.get("name"): d for d in bom_item_rows}
+            bom_item_by_idx = {d.get("idx"): d for d in bom_item_rows}
 
             items = []
             base_url = frappe.utils.get_url()  # جلب الدومين الأساسي للنظام
@@ -137,15 +152,15 @@ class JobCards(Document):
                     )[0][0] or 0
                 
                 daigram_number = None
-                if diagram_fieldname:
-                    daigram_number = frappe.db.get_value(
-                        "BOM Item",
-                        {"parent": bom_doc.name, "name": row.name},
-                        diagram_fieldname
-                    )
+                bom_item_row = bom_item_by_name.get(row.name) or bom_item_by_idx.get(row.idx)
 
-                if daigram_number in (None, "") and diagram_fieldname:
-                    daigram_number = getattr(row, diagram_fieldname, None)
+                for fieldname in diagram_field_candidates:
+                    if bom_item_row:
+                        daigram_number = bom_item_row.get(fieldname)
+                    if daigram_number in (None, ""):
+                        daigram_number = getattr(row, fieldname, None)
+                    if daigram_number not in (None, ""):
+                        break
 
                 if daigram_number in (None, ""):
                     daigram_number = 0
