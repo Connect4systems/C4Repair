@@ -97,6 +97,7 @@ class JobCards(Document):
         try:
             bom_doc = frappe.get_doc("BOM", bom)
             price_list = frappe.db.get_single_value("Selling Settings", "selling_price_list") or "Standard Selling"
+            default_target_warehouse = frappe.db.get_single_value("TAC Settings", "default_target_warehouse")
 
             items = []
             base_url = frappe.utils.get_url()  # جلب الدومين الأساسي للنظام
@@ -108,28 +109,37 @@ class JobCards(Document):
                 if not item_details:
                     item_details = {"item_name": row.item_code, "image": ""}
                 
-                # جلب سعر الصنف من Item Price
-                price = frappe.db.get_value(
+                latest_item_price = frappe.get_all(
                     "Item Price",
-                    {"item_code": row.item_code, "price_list": price_list},
-                    "price_list_rate"
-                ) or 0  # إذا لم يتم العثور على سعر، يكون 0
+                    filters={"item_code": row.item_code, "price_list": price_list},
+                    fields=["price_list_rate"],
+                    order_by="modified desc",
+                    limit=1
+                )
+                price = latest_item_price[0]["price_list_rate"] if latest_item_price else 0
+
+                available_qty = 0
+                if default_target_warehouse:
+                    available_qty = frappe.db.sql(
+                        """
+                        SELECT COALESCE(SUM(actual_qty), 0)
+                        FROM `tabBin`
+                        WHERE item_code = %s AND warehouse = %s
+                        """,
+                        (row.item_code, default_target_warehouse)
+                    )[0][0] or 0
                 
-                daigram_number = frappe.db.get_value(
-                    "BOM Item",
-                    {"item_code": row.item_code},
-                    "daigram_number"
-                ) or ""
+                daigram_number = getattr(row, "daigram_number", "") or ""
                 # ضبط رابط الصورة ليكون صالحًا للعرض
                 image = f"{base_url}/{item_details.get('image')}" if item_details.get("image") else "https://via.placeholder.com/50"
 
                 items.append({
                     "item_code": row.item_code,
                     "daigram_number":daigram_number,
-                    "item_name": item_details["item_name"],
+                    "item_name": row.item_name or item_details["item_name"],
                     "price": price,
                     "qty": row.qty,
-                    "available_qty": "",
+                    "available_qty": available_qty,
                     "image": image
                 })
             return items
