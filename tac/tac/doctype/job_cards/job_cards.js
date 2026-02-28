@@ -65,12 +65,17 @@ frappe.ui.form.on("Job Cards", {
 
 function setBomQuery(frm) {
     frm.set_query("bom", function() {
+        const filters = {
+            docstatus: 1,
+            is_active: 1
+        };
+
+        if (frm.doc.item_code) {
+            filters.item = frm.doc.item_code;
+        }
+
         return {
-            filters: {
-                item: frm.doc.item_code || "",
-                docstatus: 1,
-                is_active: 1
-            }
+            filters: filters
         };
     });
 }
@@ -177,17 +182,6 @@ function buildTechnicalTab(frm) {
     let item_code = frm.doc.item_code;
     let bom = frm.doc.bom;
     const requestId = ++sparePartsRequestId;
-
-    if (!item_code) {
-        let html = getStaticLayout(frm, {
-            technician_name: frm.doc.technician_name || "",
-            item_code: frm.doc.item_code || "",
-            items: [],
-            image_url: frm.doc.image_url
-        });
-        frm.get_field("spare_parts").$wrapper.html(html);
-        return;
-    }
 
     if (!bom) {
         let html = getStaticLayout(frm, {
