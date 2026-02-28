@@ -1,4 +1,5 @@
 let sparePartsRequestId = 0;
+const BOM_DEBUG = true;
 
 frappe.ui.form.on("Job Cards", {
     setup: function(frm) {
@@ -59,6 +60,13 @@ frappe.ui.form.on("Job Cards", {
         syncDefaultBomAndBuild(frm);
     },
     bom: function(frm) {
+        if (BOM_DEBUG) {
+            console.debug("[Job Cards] BOM changed", {
+                job_card: frm.doc.name,
+                item_code: frm.doc.item_code,
+                bom: frm.doc.bom
+            });
+        }
         buildTechnicalTab(frm);
     }
 });
@@ -183,6 +191,15 @@ function buildTechnicalTab(frm) {
     let bom = frm.doc.bom;
     const requestId = ++sparePartsRequestId;
 
+    if (BOM_DEBUG) {
+        console.debug("[Job Cards] buildTechnicalTab", {
+            requestId,
+            job_card: frm.doc.name,
+            item_code,
+            bom
+        });
+    }
+
     if (!bom) {
         let html = getStaticLayout(frm, {
             technician_name: frm.doc.technician_name || "",
@@ -202,11 +219,48 @@ function buildTechnicalTab(frm) {
             bom: bom
         },
         callback: function(r2) {
+            if (BOM_DEBUG) {
+                console.debug("[Job Cards] get_items_from_bom response", {
+                    requestId,
+                    currentRequestId: sparePartsRequestId,
+                    requestedBom: bom,
+                    activeBom: frm.doc.bom,
+                    hasException: Boolean(r2 && r2.exc),
+                    rows: Array.isArray(r2 && r2.message) ? r2.message.length : 0,
+                    message: r2 ? r2.message : null
+                });
+            }
+
+            if (r2 && r2.exc) {
+                frappe.msgprint({
+                    title: __("BOM Fetch Error"),
+                    indicator: "red",
+                    message: __("Failed to load spare parts from BOM. Check console for details.")
+                });
+                return;
+            }
+
             if (requestId !== sparePartsRequestId || bom !== frm.doc.bom) {
+                if (BOM_DEBUG) {
+                    console.debug("[Job Cards] stale response ignored", {
+                        requestId,
+                        currentRequestId: sparePartsRequestId,
+                        requestedBom: bom,
+                        activeBom: frm.doc.bom
+                    });
+                }
                 return;
             }
 
             let items = r2.message || [];
+            if (BOM_DEBUG && (!Array.isArray(items) || !items.length)) {
+                console.warn("[Job Cards] no BOM items returned", {
+                    bom,
+                    item_code,
+                    response: r2
+                });
+            }
+
             let html = getStaticLayout(frm, {
                 technician_name: frm.doc.technician_name || "",
                 item_code: frm.doc.item_code || "",
