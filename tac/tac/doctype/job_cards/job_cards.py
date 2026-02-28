@@ -111,15 +111,34 @@ class JobCards(Document):
                 if bom_item_meta.has_field(fieldname)
             ]
 
-            bom_item_fields = ["name", "idx", "item_code"] + diagram_field_candidates
-            bom_item_rows = frappe.get_all(
-                "BOM Item",
-                filters={"parent": bom_doc.name},
-                fields=bom_item_fields,
-                order_by="idx asc"
-            )
-            bom_item_by_name = {d.get("name"): d for d in bom_item_rows}
-            bom_item_by_idx = {d.get("idx"): d for d in bom_item_rows}
+            diagram_fieldname_in_use = None
+            diagram_value_by_idx = {}
+            for fieldname in diagram_field_candidates:
+                try:
+                    sql_rows = frappe.db.sql(
+                        f"""
+                        SELECT idx, `{fieldname}` AS diagram_value
+                        FROM `tabBOM Item`
+                        WHERE parent = %s
+                        ORDER BY idx ASC
+                        """,
+                        (bom_doc.name,),
+                        as_dict=True,
+                    )
+                except Exception:
+                    continue
+
+                has_any_non_empty = any(
+                    row.get("diagram_value") not in (None, "")
+                    for row in sql_rows
+                )
+                if has_any_non_empty:
+                    diagram_fieldname_in_use = fieldname
+                    diagram_value_by_idx = {
+                        int(row.get("idx") or 0): row.get("diagram_value")
+                        for row in sql_rows
+                    }
+                    break
 
             items = []
             base_url = frappe.utils.get_url()  # جلب الدومين الأساسي للنظام
@@ -151,22 +170,14 @@ class JobCards(Document):
                         (row.item_code, default_target_warehouse)
                     )[0][0] or 0
                 
-                daigram_number = None
-                bom_item_row = bom_item_by_name.get(row.name) or bom_item_by_idx.get(row.idx)
+                row_idx = int(row.idx or 0)
+                daigram_number = diagram_value_by_idx.get(row_idx)
 
-                for fieldname in diagram_field_candidates:
-                    if bom_item_row:
-                        daigram_number = bom_item_row.get(fieldname)
-                    if daigram_number in (None, ""):
-                        daigram_number = frappe.db.get_value(
-                            "BOM Item",
-                            {"parent": bom_doc.name, "idx": row.idx},
-                            fieldname
-                        )
-                    if daigram_number in (None, ""):
-                        daigram_number = getattr(row, fieldname, None)
-                    if daigram_number not in (None, ""):
-                        break
+                if daigram_number in (None, "") and diagram_fieldname_in_use:
+                    daigram_number = getattr(row, diagram_fieldname_in_use, None)
+
+                if daigram_number in (None, ""):
+                    daigram_number = getattr(row, "daigram_number", None)
 
                 if daigram_number in (None, ""):
                     daigram_number = 0
