@@ -19,8 +19,6 @@
   "item_image",
   "image_url",
   "section_break_jxcb",
-  "customer_name",
-  "customer_mobile",
   "source_warehouse",
   "target_warehouse",
   "column_break_ecxc",
@@ -29,9 +27,11 @@
   "amended_from",
   "naming_series",
   "section_break_eyti",
+  "item_card",
   "sales_invoice",
   "column_break_ckth",
   "receive_item",
+  "stock_entry",
   "technical_tab",
   "spare_parts",
   "section_break_eaqj",
@@ -79,21 +79,6 @@
   {
    "fieldname": "section_break_jxcb",
    "fieldtype": "Section Break"
-  },
-  {
-   "fetch_from": "receive_item.customer_name",
-   "fieldname": "customer_name",
-   "fieldtype": "Link",
-   "label": "Customer Name",
-   "options": "Customer",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "receive_item.customer_mobile",
-   "fieldname": "customer_mobile",
-   "fieldtype": "Data",
-   "label": "Customer Mobile",
-   "read_only": 1
   },
   {
    "fieldname": "column_break_ecxc",
@@ -333,6 +318,20 @@
    "label": "Daigram Preview",
    "options": "daigram_image",
    "read_only": 1
+  },
+  {
+   "fieldname": "item_card",
+   "fieldtype": "Link",
+   "label": "Item Card",
+   "options": "Item Card",
+   "read_only": 1
+  },
+  {
+   "fieldname": "stock_entry",
+   "fieldtype": "Link",
+   "label": "Stock Entry",
+   "options": "Stock Entry",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -342,9 +341,14 @@
    "group": "Sales Invoice",
    "link_doctype": "Sales Invoice",
    "link_fieldname": "job_cards"
+  },
+  {
+   "group": "Stock Entry",
+   "link_doctype": "Stock Entry",
+   "link_fieldname": "job_cards"
   }
  ],
- "modified": "2025-03-14 02:53:07.526718",
+ "modified": "2026-02-28 12:47:04.411718",
  "modified_by": "Administrator",
  "module": "Tac",
  "name": "Job Cards",
@@ -378,6 +382,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

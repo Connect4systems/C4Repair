@@ -7,24 +7,24 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "customer_name",
-  "customer_mobile",
+  "agent",
+  "mobile",
+  "item_code",
   "column_break_gwwb",
   "receiving_date",
+  "serial_number",
+  "item_name",
   "section_break_lkng",
   "column_break_bmcw",
-  "item_code",
-  "item_name",
   "failure_description",
-  "recent_image",
   "column_break_odti",
-  "serial_number",
-  "register_date",
   "item_image",
+  "recent_image",
   "image_url",
-  "valuation_rate",
   "section_break_jhzg",
   "column_break_bkdj",
+  "valuation_rate",
+  "register_date",
   "column_break_itgw",
   "warranty_status",
   "warranty_expire_date",
@@ -60,24 +60,8 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "customer_name",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "in_preview": 1,
-   "in_standard_filter": 1,
-   "label": "Customer Name",
-    "options": "Customer"
-  },
-  {
    "fieldname": "column_break_itgw",
    "fieldtype": "Column Break"
-  },
-  {
-    "fetch_from": "customer_name.mobile_no",
-   "fieldname": "customer_mobile",
-   "fieldtype": "Data",
-   "label": "Customer Mobile",
-   "read_only": 1
   },
   {
    "fieldname": "failure_description",
@@ -88,10 +72,10 @@
    "fieldname": "serial_number",
    "fieldtype": "Link",
    "label": "Serial Number",
-    "options": "Serial No"
+   "options": "Serial No"
   },
   {
-    "fetch_from": "serial_number.maintenance_status",
+   "fetch_from": "item_card.warranty_status",
    "fieldname": "warranty_status",
    "fieldtype": "Select",
    "label": "Warranty Status",
@@ -99,7 +83,7 @@
    "read_only": 1
   },
   {
-    "fetch_from": "serial_number.warranty_expiry_date",
+   "fetch_from": "item_card.warranty_expire_date",
    "fieldname": "warranty_expire_date",
    "fieldtype": "Date",
    "label": "Warranty Expire Date",
@@ -116,12 +100,13 @@
    "fieldtype": "Section Break"
   },
   {
-    "fetch_from": "serial_number.item_code",
    "fieldname": "item_code",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Item Code",
-   "options": "Item",
-   "read_only": 1
+   "options": "Item"
   },
   {
    "fetch_from": "item_code.item_name",
@@ -137,7 +122,7 @@
   {
    "fieldname": "item_image",
    "fieldtype": "Image",
-   "options": "image_url",
+   "options": "recent_image",
    "read_only": 1
   },
   {
@@ -145,9 +130,11 @@
    "fieldtype": "Section Break"
   },
   {
+   "fetch_from": "item_card.register_date",
    "fieldname": "register_date",
    "fieldtype": "Date",
-    "label": "Register Date"
+   "label": "Register Date",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_xqwb",
@@ -229,11 +216,26 @@
   {
    "fieldname": "column_break_bkdj",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "agent",
+   "fieldtype": "Data",
+   "label": "Agent"
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "label": "Mobile"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [
+  {
+   "group": "Stock Entry",
+   "link_doctype": "Stock Entry",
+   "link_fieldname": "receive_item"
+  },
   {
    "group": "Job Cards",
    "link_doctype": "Job Cards",
@@ -241,7 +243,7 @@
   }
  ],
  "make_attachments_public": 1,
- "modified": "2026-02-28 11:07:32.002583",
+ "modified": "2026-02-28 12:42:59.769801",
  "modified_by": "Administrator",
  "module": "Tac",
  "name": "Receive Item",
