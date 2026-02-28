@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"m6US3O8Zxy\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Technical Assistance Center</span>\",\"col\":12}},{\"id\":\"fDxQ-Aybpb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item Card\",\"col\":3}},{\"id\":\"d3RWyrK92i\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Receive Item\",\"col\":3}},{\"id\":\"tVOHSYe8m9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Cards\",\"col\":3}},{\"id\":\"7EwYVrGd3E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Technician\",\"col\":3}},{\"id\":\"t-LHXjqSK-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"TAC Settings\",\"col\":3}},{\"id\":\"lU4aEJyL83\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}}]",
+ "content": "[{\"id\":\"m6US3O8Zxy\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Technical Assistance Center</span>\",\"col\":12}},{\"id\":\"d3RWyrK92i\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Receive Item\",\"col\":3}},{\"id\":\"tVOHSYe8m9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Cards\",\"col\":3}},{\"id\":\"7EwYVrGd3E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Technician\",\"col\":3}},{\"id\":\"t-LHXjqSK-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"TAC Settings\",\"col\":3}},{\"id\":\"lU4aEJyL83\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}}]",
  "creation": "2025-02-23 23:27:13.913995",
  "custom_blocks": [],
  "docstatus": 0,
@@ -34,14 +34,6 @@
    "doc_view": "List",
    "label": "Item",
    "link_to": "Item",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Item Card",
-   "link_to": "Item Card",
    "stats_filter": "[]",
    "type": "DocType"
   },

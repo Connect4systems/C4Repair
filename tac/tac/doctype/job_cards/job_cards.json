@@ -29,7 +29,6 @@
   "amended_from",
   "naming_series",
   "section_break_eyti",
-  "item_card",
   "sales_invoice",
   "column_break_ckth",
   "receive_item",
@@ -249,13 +248,6 @@
   {
    "fieldname": "section_break_eyti",
    "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "item_card",
-   "fieldtype": "Link",
-   "label": "Item Card",
-   "options": "Item Card",
-   "read_only": 1
   },
   {
    "fieldname": "column_break_ckth",

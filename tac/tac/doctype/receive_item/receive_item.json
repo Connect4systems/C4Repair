@@ -60,22 +60,20 @@
    "fieldtype": "Section Break"
   },
   {
-   "fetch_from": "item_card.customer_name",
    "fieldname": "customer_name",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Customer Name",
-   "options": "Customer",
-   "read_only": 1
+    "options": "Customer"
   },
   {
    "fieldname": "column_break_itgw",
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "item_card.customer_mobile",
+    "fetch_from": "customer_name.mobile_no",
    "fieldname": "customer_mobile",
    "fieldtype": "Data",
    "label": "Customer Mobile",
@@ -90,11 +88,10 @@
    "fieldname": "serial_number",
    "fieldtype": "Link",
    "label": "Serial Number",
-   "options": "Serial No",
-   "read_only": 1
+    "options": "Serial No"
   },
   {
-   "fetch_from": "item_card.warranty_status",
+    "fetch_from": "serial_number.maintenance_status",
    "fieldname": "warranty_status",
    "fieldtype": "Select",
    "label": "Warranty Status",
@@ -102,7 +99,7 @@
    "read_only": 1
   },
   {
-   "fetch_from": "item_card.warranty_expire_date",
+    "fetch_from": "serial_number.warranty_expiry_date",
    "fieldname": "warranty_expire_date",
    "fieldtype": "Date",
    "label": "Warranty Expire Date",
@@ -119,7 +116,7 @@
    "fieldtype": "Section Break"
   },
   {
-   "fetch_from": "job_cards.item_code",
+    "fetch_from": "serial_number.item_code",
    "fieldname": "item_code",
    "fieldtype": "Link",
    "label": "Item Code",
@@ -148,11 +145,9 @@
    "fieldtype": "Section Break"
   },
   {
-   "fetch_from": "item_card.register_date",
    "fieldname": "register_date",
    "fieldtype": "Date",
-   "label": "Register Date",
-   "read_only": 1
+    "label": "Register Date"
   },
   {
    "fieldname": "column_break_xqwb",

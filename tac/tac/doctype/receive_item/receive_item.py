@@ -4,10 +4,6 @@ from frappe.model.document import Document
 class ReceiveItem(Document):
 	def on_submit(self):
 		self.create_job_cards_base_on_receive_item()
-	# def on_cancel(self):
-	# 	item_caed = frappe.get_doc("Item Card", self.item_card)
-	# 	item_caed.db_set("status","Received")
-	# 	self.db_set("job_cards",None)
 	# def before_cancel(self):
 	# 	# إلغاء جميع Job Cards المرتبطة بهذا Receive Item
 	# 	self.cancel_related_job_cards(self)
@@ -35,8 +31,6 @@ class ReceiveItem(Document):
 			new_receive_item = self.create_job_cards()
 			self.db_set("job_cards_created", 1)
 			self.db_set("job_cards", new_receive_item.name)
-			item_caed = frappe.get_doc("Item Card", self.item_card)
-			item_caed.db_set("status","To Deliver") 
 			return new_receive_item
 
 	def create_job_cards(self):
@@ -51,7 +45,6 @@ class ReceiveItem(Document):
 		new_doc.warranty_status = self.warranty_status
 		new_doc.warranty_expire_date = self.warranty_expire_date
 		new_doc.register_date = self.register_date
-		new_doc.item_card = self.item_card
 		new_doc.receive_item = self.name
 		new_doc.insert()
 

@@ -11,10 +11,6 @@ class JobCards(Document):
     def before_save(self):
         # self.calculate_total_spare_parts_amount()
         pass
-    # def on_cancel(self):
-    #     item_caed = frappe.get_doc("Item Card", self.item_card)
-    #     item_caed.db_set("status","To Deliver")        
-    #     self.db_set("receive_item",None)
     def on_submit(self):
         self.create_sales_invoice()
     def validate_for_items(self):
@@ -57,7 +53,6 @@ class JobCards(Document):
             "customer": self.customer_name,
             "due_date": frappe.utils.nowdate(),
             "job_cards": self.name,
-            "item_card": self.item_card,
             "items": []
         })
 
