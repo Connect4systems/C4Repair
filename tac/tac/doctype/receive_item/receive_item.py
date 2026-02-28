@@ -3,6 +3,7 @@ from frappe.model.document import Document
 
 class ReceiveItem(Document):
 	def on_submit(self):
+		self.db_set("status", "Received", update_modified=False)
 		self.create_job_cards_base_on_receive_item()
 	# def before_cancel(self):
 	# 	# إلغاء جميع Job Cards المرتبطة بهذا Receive Item

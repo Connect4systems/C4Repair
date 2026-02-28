@@ -38,7 +38,8 @@
   "job_cards_created",
   "naming_series",
   "column_break_velf",
-  "job_cards"
+    "job_cards",
+    "status"
  ],
  "fields": [
   {
@@ -224,6 +225,16 @@
    "fieldname": "mobile",
    "fieldtype": "Data",
    "label": "Mobile"
+    },
+    {
+     "allow_on_submit": 1,
+     "default": "Received",
+     "fieldname": "status",
+     "fieldtype": "Select",
+     "in_list_view": 1,
+     "label": "Status",
+     "options": "Received\nReturned",
+     "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,

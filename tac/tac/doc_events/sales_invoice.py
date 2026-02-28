@@ -27,6 +27,20 @@ def on_submit(doc, method):
         # frappe.msgprint(_("Rent is not linked to this Sales Invoice."))
         pass
 
+    update_receive_item_status(doc)
+
+def update_receive_item_status(sales_invoice_doc):
+    receive_item_name = sales_invoice_doc.get("custom_receive_item")
+
+    if not receive_item_name and sales_invoice_doc.get("job_cards"):
+        receive_item_name = frappe.db.get_value("Job Cards", sales_invoice_doc.job_cards, "receive_item")
+
+    if not receive_item_name:
+        return
+
+    if frappe.db.exists("Receive Item", receive_item_name):
+        frappe.db.set_value("Receive Item", receive_item_name, "status", "Returned", update_modified=False)
+
 def update_rent_status(rent_doc, sales_invoice_doc):
     """
     تقوم بالتحقق من الأصناف والكميات في فاتورة المبيعات

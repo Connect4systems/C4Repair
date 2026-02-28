@@ -273,7 +273,7 @@
    "description": null,
    "docstatus": 0,
    "dt": "Sales Invoice",
-   "fetch_from": null,
+    "fetch_from": "job_cards.receive_item",
    "fetch_if_empty": 0,
    "fieldname": "custom_receive_item",
    "fieldtype": "Link",
