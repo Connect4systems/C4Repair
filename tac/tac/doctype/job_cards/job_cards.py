@@ -39,9 +39,10 @@ class JobCards(Document):
             return
         technical_fees = 0.00
         settings = get_settings()
-        
-        if not self.customer_name:
-            frappe.throw(_("الرجاء تحديد عميل قبل الإرسال"))
+        customer = "Repair"
+
+        if not frappe.db.exists("Customer", customer):
+            frappe.throw(_("Customer '{0}' is required. Please create it first.").format(customer))
 
         # جلب إعدادات الرسوم الفنية
         technical_fees_item = settings.technical_fees_item
@@ -50,7 +51,7 @@ class JobCards(Document):
         # إنشاء فاتورة المبيعات
         sales_invoice = frappe.get_doc({
             "doctype": "Sales Invoice",
-            "customer": self.customer_name,
+            "customer": customer,
             "due_date": frappe.utils.nowdate(),
             "job_cards": self.name,
             "items": []

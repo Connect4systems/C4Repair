@@ -75,7 +75,7 @@
    "options": "Serial No"
   },
   {
-   "fetch_from": "item_card.warranty_status",
+    "fetch_from": "serial_number.maintenance_status",
    "fieldname": "warranty_status",
    "fieldtype": "Select",
    "label": "Warranty Status",
@@ -83,7 +83,7 @@
    "read_only": 1
   },
   {
-   "fetch_from": "item_card.warranty_expire_date",
+    "fetch_from": "serial_number.warranty_expiry_date",
    "fieldname": "warranty_expire_date",
    "fieldtype": "Date",
    "label": "Warranty Expire Date",
@@ -130,11 +130,9 @@
    "fieldtype": "Section Break"
   },
   {
-   "fetch_from": "item_card.register_date",
    "fieldname": "register_date",
    "fieldtype": "Date",
-   "label": "Register Date",
-   "read_only": 1
+    "label": "Register Date"
   },
   {
    "fieldname": "column_break_xqwb",
@@ -231,11 +229,6 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [
-  {
-   "group": "Stock Entry",
-   "link_doctype": "Stock Entry",
-   "link_fieldname": "receive_item"
-  },
   {
    "group": "Job Cards",
    "link_doctype": "Job Cards",

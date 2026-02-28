@@ -39,8 +39,14 @@ class ReceiveItem(Document):
 		new_doc.item_code_copy = self.item_code
 		new_doc.item_name = self.item_name
 		new_doc.image_url = self.image_url
-		new_doc.customer_name = self.customer_name
-		new_doc.customer_mobile = self.customer_mobile
+		if new_doc.meta.has_field("customer_name"):
+			new_doc.customer_name = getattr(self, "customer_name", None) or getattr(self, "agent", None)
+		if new_doc.meta.has_field("customer_mobile"):
+			new_doc.customer_mobile = getattr(self, "customer_mobile", None) or getattr(self, "mobile", None)
+		if new_doc.meta.has_field("agent"):
+			new_doc.agent = getattr(self, "agent", None) or getattr(self, "customer_name", None)
+		if new_doc.meta.has_field("mobile"):
+			new_doc.mobile = getattr(self, "mobile", None) or getattr(self, "customer_mobile", None)
 		new_doc.serial_number = self.serial_number
 		new_doc.warranty_status = self.warranty_status
 		new_doc.warranty_expire_date = self.warranty_expire_date
