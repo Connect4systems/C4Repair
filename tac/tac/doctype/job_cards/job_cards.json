@@ -11,23 +11,24 @@
   "item_code",
   "item_name",
   "serial_number",
-  "warranty_expire_date",
   "warranty_status",
   "column_break_ddqq",
   "technician_name",
-  "receiving_date",
-  "failure_description",
-  "section_break_jxcb",
-  "source_warehouse",
   "agent",
   "mobile",
-  "target_warehouse",
+  "receiving_date",
+  "warranty_expire_date",
+  "section_break_jxcb",
+  "failure_description",
   "column_break_ecxc",
-  "image_url",
   "item_image",
+  "image_url",
   "section_break_cfek",
   "amended_from",
   "naming_series",
+  "column_break_pbdd",
+  "source_warehouse",
+  "target_warehouse",
   "section_break_eyti",
   "sales_invoice",
   "column_break_ckth",
@@ -274,9 +275,9 @@
    "options": "Warehouse"
   },
   {
+   "fetch_from": "receive_item.recent_image",
    "fieldname": "image_url",
    "fieldtype": "Attach Image",
-   "hidden": 1,
    "label": "Image URL",
    "read_only": 1
   },
@@ -320,16 +321,18 @@
    "read_only": 1
   },
   {
-    "fetch_from": "receive_item.agent",
    "fieldname": "agent",
    "fieldtype": "Data",
    "label": "Agent"
   },
   {
-    "fetch_from": "receive_item.mobile",
    "fieldname": "mobile",
    "fieldtype": "Data",
    "label": "Mobile"
+  },
+  {
+   "fieldname": "column_break_pbdd",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -341,7 +344,7 @@
    "link_fieldname": "job_cards"
   }
  ],
- "modified": "2026-02-28 13:40:22.992120",
+ "modified": "2026-02-28 14:01:39.613316",
  "modified_by": "Administrator",
  "module": "Tac",
  "name": "Job Cards",

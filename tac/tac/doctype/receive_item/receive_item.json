@@ -75,7 +75,7 @@
    "options": "Serial No"
   },
   {
-    "fetch_from": "serial_number.maintenance_status",
+   "fetch_from": "serial_number.maintenance_status",
    "fieldname": "warranty_status",
    "fieldtype": "Select",
    "label": "Warranty Status",
@@ -83,7 +83,7 @@
    "read_only": 1
   },
   {
-    "fetch_from": "serial_number.warranty_expiry_date",
+   "fetch_from": "serial_number.warranty_expiry_date",
    "fieldname": "warranty_expire_date",
    "fieldtype": "Date",
    "label": "Warranty Expire Date",
@@ -132,7 +132,7 @@
   {
    "fieldname": "register_date",
    "fieldtype": "Date",
-    "label": "Register Date"
+   "label": "Register Date"
   },
   {
    "fieldname": "column_break_xqwb",
@@ -233,10 +233,14 @@
    "group": "Job Cards",
    "link_doctype": "Job Cards",
    "link_fieldname": "receive_item"
+  },
+  {
+   "link_doctype": "Sales Invoice",
+   "link_fieldname": "custom_receive_item"
   }
  ],
  "make_attachments_public": 1,
- "modified": "2026-02-28 12:42:59.769801",
+ "modified": "2026-02-28 14:14:15.856249",
  "modified_by": "Administrator",
  "module": "Tac",
  "name": "Receive Item",
@@ -286,7 +290,16 @@
  "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
+ "states": [
+  {
+   "color": "Red",
+   "title": "Received"
+  },
+  {
+   "color": "Green",
+   "title": "Returned"
+  }
+ ],
  "track_changes": 1,
  "track_views": 1
 }
