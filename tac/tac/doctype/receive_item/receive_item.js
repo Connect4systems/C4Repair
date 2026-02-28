@@ -3,6 +3,13 @@
 
 frappe.ui.form.on("Receive Item", {
 	refresh(frm) {
+        if (frm.doc.docstatus === 1 && frm.doc.status) {
+            frm.set_intro(
+                __("Receive Item Status: {0}", [frm.doc.status]),
+                frm.doc.status === "Returned" ? "green" : "orange"
+            );
+        }
+
 		if(frm.doc.docstatus==1)
         {
             frm.add_custom_button(__("Job Cards"), function() {

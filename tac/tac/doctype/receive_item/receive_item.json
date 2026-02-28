@@ -9,6 +9,7 @@
  "field_order": [
   "agent",
   "mobile",
+   "status",
   "item_code",
   "column_break_gwwb",
   "receiving_date",
@@ -38,8 +39,7 @@
   "job_cards_created",
   "naming_series",
   "column_break_velf",
-    "job_cards",
-    "status"
+   "job_cards"
  ],
  "fields": [
   {
