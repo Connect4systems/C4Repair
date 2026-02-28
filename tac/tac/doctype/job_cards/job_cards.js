@@ -1,3 +1,5 @@
+let sparePartsRequestId = 0;
+
 frappe.ui.form.on("Job Cards", {
     setup: function(frm) {
         setBomQuery(frm);
@@ -80,7 +82,7 @@ function syncDefaultBomAndBuild(frm) {
     }
 
     if (frm.doc.bom) {
-        buildTechnicalTab(frm);
+        frm.trigger("bom");
         return;
     }
 
@@ -93,7 +95,7 @@ function syncDefaultBomAndBuild(frm) {
         callback: function(r) {
             const defaultBom = r.message;
             if (defaultBom && defaultBom !== frm.doc.bom) {
-                frm.set_value("bom", defaultBom);
+                frm.set_value("bom", defaultBom).then(() => frm.trigger("bom"));
             } else {
                 buildTechnicalTab(frm);
             }
@@ -174,6 +176,7 @@ function addCSS() {
 function buildTechnicalTab(frm) {
     let item_code = frm.doc.item_code;
     let bom = frm.doc.bom;
+    const requestId = ++sparePartsRequestId;
 
     if (!item_code) {
         let html = getStaticLayout(frm, {
@@ -205,6 +208,10 @@ function buildTechnicalTab(frm) {
             bom: bom
         },
         callback: function(r2) {
+            if (requestId !== sparePartsRequestId || bom !== frm.doc.bom) {
+                return;
+            }
+
             let items = r2.message || [];
             let html = getStaticLayout(frm, {
                 technician_name: frm.doc.technician_name || "",
