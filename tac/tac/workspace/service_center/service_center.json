@@ -39,7 +39,7 @@
   },
   {
    "color": "Grey",
-   "doc_view": "List",
+    "doc_view": "Form",
    "label": "TAC Settings",
    "link_to": "TAC Settings",
    "type": "DocType"
