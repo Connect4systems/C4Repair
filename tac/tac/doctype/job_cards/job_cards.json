@@ -33,7 +33,6 @@
   "sales_invoice",
   "column_break_ckth",
   "receive_item",
-  "stock_entry",
   "technical_tab",
   "spare_parts",
   "section_break_eaqj",
@@ -312,13 +311,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "stock_entry",
-   "fieldtype": "Link",
-   "label": "Stock Entry",
-   "options": "Stock Entry",
-   "read_only": 1
-  },
-  {
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
@@ -357,11 +349,6 @@
   {
    "group": "Sales Invoice",
    "link_doctype": "Sales Invoice",
-   "link_fieldname": "job_cards"
-  },
-  {
-   "group": "Stock Entry",
-   "link_doctype": "Stock Entry",
    "link_fieldname": "job_cards"
   }
  ],

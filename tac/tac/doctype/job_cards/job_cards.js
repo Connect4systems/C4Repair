@@ -4,12 +4,6 @@ frappe.ui.form.on("Job Cards", {
         buildTechnicalTab(frm);
         // frm.set_df_property("technician_name", "hidden", 1);
         // frm.set_df_property("item_code", "hidden", 1);
-    //   setTimeout(() => {
-    //     const stockEntryButton = document.querySelector('.document-link[data-doctype="Stock Entry"] .btn-new');
-    //     if (stockEntryButton) {
-    //         stockEntryButton.style.display = 'none';
-    //       }
-    //   }, 500);   
     // //   setTimeout(() => {
     // //       const paymentEntryButton = document.querySelector('.document-link[data-doctype="Payment Entry"] .btn-new');
     // //       if (paymentEntryButton) {

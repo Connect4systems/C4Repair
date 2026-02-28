@@ -208,11 +208,6 @@
    "link_fieldname": "item_card"
   },
   {
-   "group": "Stock Entry",
-   "link_doctype": "Stock Entry",
-   "link_fieldname": "item_card"
-  },
-  {
    "group": "Receive Item",
    "link_doctype": "Receive Item",
    "link_fieldname": "item_card"

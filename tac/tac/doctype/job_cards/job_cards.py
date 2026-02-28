@@ -17,7 +17,6 @@ class JobCards(Document):
     #     self.db_set("receive_item",None)
     def on_submit(self):
         self.create_sales_invoice()
-        self.create_stock_entry()
     def validate_for_items(self):
         for d in self.get("items"):
             tot_avail_qty = frappe.db.sql(
@@ -34,39 +33,6 @@ class JobCards(Document):
             total_amount += price * qty
         self.total_spare_parts_amount = total_amount
         self.total_amount = self.total_spare_parts_amount + self.technical_fees
-        
-    def create_stock_entry(self):
-        """
-        يتم استدعاؤها عند اعتماد المستند.
-        تقوم بإنشاء Stock Entry.
-        """
-        settings = get_settings()
-        target_warehouse = settings.default_target_warehouse
-        source_warehouse = settings.default_source_warehouse       
-        # إنشاء Stock Entry
-        new_doc = frappe.get_doc({
-            'doctype': 'Stock Entry',
-            'transaction_date': self.receiving_date,
-            'stock_entry_type': 'Material Transfer',
-            'customer': self.customer_name,
-            'from_warehouse': target_warehouse,
-            'to_warehouse': source_warehouse ,
-            'item_card': self.item_card,
-            'job_cards': self.name
-        })
-        
-        new = new_doc.append("items", {})
-        new.item_code = self.item_code
-        new.item_name = self.item_name
-        new.qty = 1
-        new.customer = self.customer_name
-        new.custom_serial_on = self.serial_number
-        new_doc.insert(ignore_permissions=True)
-        new_doc.submit()
-        self.db_set("stock_entry", new_doc.name)
-        frappe.msgprint(_("تم إنشاء  إدخال المخزون: {0}").format(
-            frappe.utils.get_link_to_form("Stock Entry", new_doc.name)
-        )) 
         
     def create_sales_invoice(self):
         """
