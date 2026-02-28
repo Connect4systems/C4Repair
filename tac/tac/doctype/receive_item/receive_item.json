@@ -240,11 +240,6 @@
  "is_submittable": 1,
  "links": [
   {
-   "group": "Stock Entry",
-   "link_doctype": "Stock Entry",
-   "link_fieldname": "receive_item"
-  },
-  {
    "group": "Job Cards",
    "link_doctype": "Job Cards",
    "link_fieldname": "receive_item"

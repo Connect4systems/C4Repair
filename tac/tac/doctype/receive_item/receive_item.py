@@ -4,7 +4,6 @@ from frappe.model.document import Document
 class ReceiveItem(Document):
 	def on_submit(self):
 		self.create_job_cards_base_on_receive_item()
-		self.create_stock_entry()
 	# def on_cancel(self):
 	# 	item_caed = frappe.get_doc("Item Card", self.item_card)
 	# 	item_caed.db_set("status","Received")
@@ -57,41 +56,3 @@ class ReceiveItem(Document):
 		new_doc.insert()
 
 		return new_doc
-
-	def create_stock_entry(self):
-		"""
-		يتم استدعاؤها عند اعتماد المستند.
-		تقوم بإنشاء Stock Entry.
-		"""
-		settings = get_settings()
-		target_warehouse = settings.default_target_warehouse
-		source_warehouse = settings.default_source_warehouse
-		# إنشاء Stock Entry
-		new_doc = frappe.get_doc({
-			'doctype': 'Stock Entry',
-			'transaction_date': self.receiving_date,
-			'stock_entry_type': 'Material Transfer',
-			'customer': self.customer_name,
-			'from_warehouse': source_warehouse,
-			'to_warehouse': target_warehouse,
-			'item_card': self.item_card,
-			'receive_item': self.name,
-		})
-
-		item = frappe.get_doc("Item", self.item_code)  # Fetch the Item document
-		valuation_rate = item.valuation_rate  # Get valuation_rate from Item
-
-		new = new_doc.append("items", {})
-		new.item_code = self.item_code
-		new.item_name = self.item_name
-		new.qty = 1
-		new.customer = self.customer_name
-		new.custom_serial_on = self.serial_number
-		new.valuation_rate = valuation_rate # Use the valuation_rate from the Item record
-		new_doc.insert(ignore_permissions=True)
-		new_doc.submit()
-def get_settings():
-	"""Fetches the TAC Setting."""
-	# Fetch the latest settings
-	settings = frappe.get_single("TAC Settings")
-	return settings 
