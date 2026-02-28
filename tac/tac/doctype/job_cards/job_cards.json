@@ -34,6 +34,8 @@
   "column_break_ckth",
   "receive_item",
   "technical_tab",
+  "bom",
+  "section_break_orxt",
   "spare_parts",
   "section_break_eaqj",
   "column_break_tnwj",
@@ -333,6 +335,16 @@
   {
    "fieldname": "column_break_pbdd",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bom",
+   "fieldtype": "Link",
+   "label": "BOM",
+   "options": "BOM"
+  },
+  {
+   "fieldname": "section_break_orxt",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -344,7 +356,7 @@
    "link_fieldname": "job_cards"
   }
  ],
- "modified": "2026-02-28 14:01:39.613316",
+ "modified": "2026-02-28 14:34:45.182923",
  "modified_by": "Administrator",
  "module": "Tac",
  "name": "Job Cards",
