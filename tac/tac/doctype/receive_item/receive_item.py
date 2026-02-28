@@ -3,8 +3,16 @@ from frappe.model.document import Document
 
 class ReceiveItem(Document):
 	def on_submit(self):
-		self.db_set("status", "Received", update_modified=False)
+		self.set_status_if_available("Received")
 		self.create_job_cards_base_on_receive_item()
+
+	def set_status_if_available(self, status_value):
+		try:
+			self.db_set("status", status_value, update_modified=False)
+		except Exception as exc:
+			if "Unknown column 'status'" in str(exc):
+				return
+			raise
 	# def before_cancel(self):
 	# 	# إلغاء جميع Job Cards المرتبطة بهذا Receive Item
 	# 	self.cancel_related_job_cards(self)
