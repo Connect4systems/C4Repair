@@ -98,6 +98,13 @@ class JobCards(Document):
             bom_doc = frappe.get_doc("BOM", bom)
             price_list = frappe.db.get_single_value("Selling Settings", "selling_price_list") or "Standard Selling"
             default_target_warehouse = frappe.db.get_single_value("TAC Settings", "default_target_warehouse")
+            bom_item_meta = frappe.get_meta("BOM Item")
+
+            diagram_fieldname = None
+            if bom_item_meta.has_field("daigram_number"):
+                diagram_fieldname = "daigram_number"
+            elif bom_item_meta.has_field("custom_daigram_number"):
+                diagram_fieldname = "custom_daigram_number"
 
             items = []
             base_url = frappe.utils.get_url()  # جلب الدومين الأساسي للنظام
@@ -129,13 +136,17 @@ class JobCards(Document):
                         (row.item_code, default_target_warehouse)
                     )[0][0] or 0
                 
-                daigram_number = getattr(row, "daigram_number", None)
-                if daigram_number in (None, ""):
+                daigram_number = None
+                if diagram_fieldname:
                     daigram_number = frappe.db.get_value(
                         "BOM Item",
                         {"parent": bom_doc.name, "name": row.name},
-                        "daigram_number"
+                        diagram_fieldname
                     )
+
+                if daigram_number in (None, "") and diagram_fieldname:
+                    daigram_number = getattr(row, diagram_fieldname, None)
+
                 if daigram_number in (None, ""):
                     daigram_number = 0
                 # ضبط رابط الصورة ليكون صالحًا للعرض
