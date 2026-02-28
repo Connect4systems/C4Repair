@@ -1,35 +1,39 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "naming_series:naming_series",
  "creation": "2025-02-23 23:59:12.386458",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_1uff",
-  "amended_from",
+  "customer_name",
+  "customer_mobile",
+  "column_break_gwwb",
+  "receiving_date",
   "section_break_lkng",
   "column_break_bmcw",
   "item_code",
   "item_name",
   "failure_description",
+  "recent_image",
   "column_break_odti",
-  "receiving_date",
+  "serial_number",
   "register_date",
   "item_image",
   "image_url",
   "valuation_rate",
   "section_break_jhzg",
-  "serial_number",
-  "customer_name",
-  "customer_mobile",
+  "column_break_bkdj",
   "column_break_itgw",
   "warranty_status",
   "warranty_expire_date",
   "source_warehouse",
   "target_warehouse",
+  "section_break_1uff",
+  "amended_from",
   "section_break_gihn",
-  "item_card",
+  "column_break_easa",
   "column_break_xqwb",
   "job_cards_created",
   "naming_series",
@@ -59,6 +63,9 @@
    "fetch_from": "item_card.customer_name",
    "fieldname": "customer_name",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Customer Name",
    "options": "Customer",
    "read_only": 1
@@ -112,6 +119,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "fetch_from": "job_cards.item_code",
    "fieldname": "item_code",
    "fieldtype": "Link",
    "label": "Item Code",
@@ -138,13 +146,6 @@
   {
    "fieldname": "section_break_gihn",
    "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "item_card",
-   "fieldtype": "Link",
-   "label": "Item Card",
-   "options": "Item Card",
-   "read_only": 1
   },
   {
    "fetch_from": "item_card.register_date",
@@ -216,6 +217,23 @@
    "hidden": 1,
    "label": "Valuation Rate",
    "read_only": 1
+  },
+  {
+   "fieldname": "column_break_gwwb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "recent_image",
+   "fieldtype": "Attach Image",
+   "label": "Recent Image"
+  },
+  {
+   "fieldname": "column_break_easa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_bkdj",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -232,7 +250,8 @@
    "link_fieldname": "receive_item"
   }
  ],
- "modified": "2025-03-14 02:55:22.301801",
+ "make_attachments_public": 1,
+ "modified": "2026-02-28 11:07:32.002583",
  "modified_by": "Administrator",
  "module": "Tac",
  "name": "Receive Item",
@@ -264,12 +283,25 @@
    "share": 1,
    "submit": 1,
    "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Reception",
+   "share": 1,
+   "submit": 1,
+   "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
  "track_changes": 1,
- "track_seen": 1,
  "track_views": 1
 }
