@@ -320,11 +320,13 @@
    "read_only": 1
   },
   {
+    "fetch_from": "receive_item.agent",
    "fieldname": "agent",
    "fieldtype": "Data",
    "label": "Agent"
   },
   {
+    "fetch_from": "receive_item.mobile",
    "fieldname": "mobile",
    "fieldtype": "Data",
    "label": "Mobile"

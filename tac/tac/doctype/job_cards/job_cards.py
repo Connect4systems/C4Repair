@@ -54,6 +54,8 @@ class JobCards(Document):
             "customer": customer,
             "due_date": frappe.utils.nowdate(),
             "job_cards": self.name,
+            "custom_agent": self.agent,
+            "custom_mobile": self.mobile,
             "items": []
         })
 
