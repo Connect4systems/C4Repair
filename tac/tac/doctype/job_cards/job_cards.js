@@ -217,6 +217,7 @@ function buildTechnicalTab(frm) {
 
             setTimeout(() => {
                 addClickEventsToImages(frm);
+                addDiagramSearch(frm);
                 const table = frm.get_field("spare_parts").$wrapper.find(".spare-parts-table");
                 if (table.length) {
                     table.css({
@@ -258,7 +259,10 @@ function getStaticLayout(frm, data) {
             <table class="spare-parts-table" style="width: 100%; min-width: 600px;">
               <thead style="background-color: #f1f1f1;">
                 <tr>
-                  <th>.#.</th>
+                                    <th>
+                                        <div>.#.</div>
+                                        <input type="text" class="diagram-search" placeholder="Search diagram" style="width: 100%; margin-top: 6px;" />
+                                    </th>
                   <th>Image</th>
                   <th>Item name</th>
                   <th>Price</th>
@@ -284,7 +288,7 @@ function buildTableRows(items) {
         items.forEach(item => {
                         const diagramNumber = item.daigram_number ?? item.custom_daigram_number ?? "";
             rowsHtml += `
-          <tr>
+                    <tr data-diagram="${diagramNumber}">
                         <td style="width: 5%;">${diagramNumber}</td>
             <td>
               <img src="${item.image || ''}" 
@@ -316,6 +320,22 @@ function buildTableRows(items) {
     }
 
     return rowsHtml;
+}
+
+function addDiagramSearch(frm) {
+    const wrapper = frm.get_field("spare_parts").$wrapper;
+    const searchInput = wrapper.find(".diagram-search");
+
+    searchInput.off("input").on("input", function() {
+        const query = ($(this).val() || "").toString().trim().toLowerCase();
+        const rows = wrapper.find("tbody tr[data-diagram]");
+
+        rows.each(function() {
+            const diagram = ($(this).attr("data-diagram") || "").toString().toLowerCase();
+            const visible = !query || diagram.includes(query);
+            $(this).toggle(visible);
+        });
+    });
 }
 
 function addClickEventsToImages(frm) {
