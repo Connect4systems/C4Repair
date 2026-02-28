@@ -90,7 +90,7 @@ class JobCards(Document):
         ))   
     
     @frappe.whitelist()
-    def get_items_from_bom(bom):
+    def get_items_from_bom(self, bom):
         if not bom:
             return []
 
