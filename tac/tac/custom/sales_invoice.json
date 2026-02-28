@@ -109,7 +109,7 @@
    "name": "Sales Invoice-custom_item_card",
    "no_copy": 0,
    "non_negative": 0,
-   "options": "Item Card",
+    "options": "Item",
    "owner": "Administrator",
    "permlevel": 0,
    "placeholder": null,
