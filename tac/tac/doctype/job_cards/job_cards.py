@@ -129,7 +129,15 @@ class JobCards(Document):
                         (row.item_code, default_target_warehouse)
                     )[0][0] or 0
                 
-                daigram_number = getattr(row, "daigram_number", "") or ""
+                daigram_number = getattr(row, "daigram_number", None)
+                if daigram_number in (None, ""):
+                    daigram_number = frappe.db.get_value(
+                        "BOM Item",
+                        {"parent": bom_doc.name, "name": row.name},
+                        "daigram_number"
+                    )
+                if daigram_number in (None, ""):
+                    daigram_number = 0
                 # ضبط رابط الصورة ليكون صالحًا للعرض
                 image = f"{base_url}/{item_details.get('image')}" if item_details.get("image") else "https://via.placeholder.com/50"
 

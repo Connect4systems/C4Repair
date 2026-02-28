@@ -282,15 +282,16 @@ function buildTableRows(items) {
     let itemCount = items ? items.length : 0;
     if (itemCount > 0) {
         items.forEach(item => {
+                        const diagramNumber = item.daigram_number ?? item.custom_daigram_number ?? "";
             rowsHtml += `
           <tr>
-            <td style="width: 5%;">${item.daigram_number || ""}</td>
+                        <td style="width: 5%;">${diagramNumber}</td>
             <td>
               <img src="${item.image || ''}" 
                    style="width: 100px; height: 70px; object-fit: cover; cursor: pointer;"
                    class="select-item"
                    data-item-code="${item.item_code}"
-                   data-daigram_number="${item.daigram_number}"
+                                     data-daigram_number="${diagramNumber}"
                    data-item-name="${item.item_name}"
                    data-price="${item.price || 0}"
                    data-available-qty="${item.available_qty || 0}">
