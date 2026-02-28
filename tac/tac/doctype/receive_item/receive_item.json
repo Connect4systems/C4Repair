@@ -1,0 +1,275 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:naming_series",
+ "creation": "2025-02-23 23:59:12.386458",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_1uff",
+  "amended_from",
+  "section_break_lkng",
+  "column_break_bmcw",
+  "item_code",
+  "item_name",
+  "failure_description",
+  "column_break_odti",
+  "receiving_date",
+  "register_date",
+  "item_image",
+  "image_url",
+  "valuation_rate",
+  "section_break_jhzg",
+  "serial_number",
+  "customer_name",
+  "customer_mobile",
+  "column_break_itgw",
+  "warranty_status",
+  "warranty_expire_date",
+  "source_warehouse",
+  "target_warehouse",
+  "section_break_gihn",
+  "item_card",
+  "column_break_xqwb",
+  "job_cards_created",
+  "naming_series",
+  "column_break_velf",
+  "job_cards"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_1uff",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Receive Item",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_jhzg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "item_card.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Link",
+   "label": "Customer Name",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_itgw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "item_card.customer_mobile",
+   "fieldname": "customer_mobile",
+   "fieldtype": "Data",
+   "label": "Customer Mobile",
+   "read_only": 1
+  },
+  {
+   "fieldname": "failure_description",
+   "fieldtype": "Long Text",
+   "label": "Failure Description"
+  },
+  {
+   "fieldname": "serial_number",
+   "fieldtype": "Link",
+   "label": "Serial Number",
+   "options": "Serial No",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "item_card.warranty_status",
+   "fieldname": "warranty_status",
+   "fieldtype": "Select",
+   "label": "Warranty Status",
+   "options": "\nUnder Warranty\nOut of Warranty\nUnder AMC\nOut of AMC",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "item_card.warranty_expire_date",
+   "fieldname": "warranty_expire_date",
+   "fieldtype": "Date",
+   "label": "Warranty Expire Date",
+   "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "receiving_date",
+   "fieldtype": "Date",
+   "label": "Receiving Date"
+  },
+  {
+   "fieldname": "section_break_lkng",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "label": "Item Code",
+   "options": "Item",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "item_code.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Read Only",
+   "label": "Item Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_odti",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "item_image",
+   "fieldtype": "Image",
+   "options": "image_url",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_gihn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "item_card",
+   "fieldtype": "Link",
+   "label": "Item Card",
+   "options": "Item Card",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "item_card.register_date",
+   "fieldname": "register_date",
+   "fieldtype": "Date",
+   "label": "Register Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_xqwb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "job_cards_created",
+   "fieldtype": "Check",
+   "label": "Job Cards Created",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_velf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "job_cards",
+   "fieldtype": "Link",
+   "label": "Job Cards",
+   "options": "Job Cards",
+   "read_only": 1
+  },
+  {
+   "fieldname": "target_warehouse",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Target Warehouse",
+   "options": "Warehouse",
+   "read_only": 1
+  },
+  {
+   "fieldname": "source_warehouse",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Source Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fetch_from": "item_code.image",
+   "fieldname": "image_url",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Image URL",
+   "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "RC-.YY.-.####."
+  },
+  {
+   "fieldname": "column_break_bmcw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "item_code.valuation_rate",
+   "fieldname": "valuation_rate",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Valuation Rate",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "group": "Stock Entry",
+   "link_doctype": "Stock Entry",
+   "link_fieldname": "receive_item"
+  },
+  {
+   "group": "Job Cards",
+   "link_doctype": "Job Cards",
+   "link_fieldname": "receive_item"
+  }
+ ],
+ "modified": "2025-03-14 02:55:22.301801",
+ "modified_by": "Administrator",
+ "module": "Tac",
+ "name": "Receive Item",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Maintenance Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
+}

@@ -1,0 +1,148 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:CV-{party}-{YY}-{###}",
+ "creation": "2025-06-13 16:08:54.819270",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "party_type",
+  "party",
+  "branch",
+  "column_break_zhkx",
+  "note",
+  "section_break_dhls",
+  "visit_date",
+  "sales_partner",
+  "column_break_opei",
+  "visit_time",
+  "latitude",
+  "longitude",
+  "section_break_q59n",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_q59n",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Customer Visit",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "party_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Party Type",
+   "options": "Customer\nLead"
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Party",
+   "options": "party_type"
+  },
+  {
+   "fieldname": "column_break_zhkx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "visit_date",
+   "fieldtype": "Date",
+   "in_standard_filter": 1,
+   "label": "Visit Date",
+   "read_only": 1,
+   "set_only_once": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "visit_time",
+   "fieldtype": "Time",
+   "label": "Visit Time",
+   "read_only": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Branch",
+   "options": "Address"
+  },
+  {
+   "fieldname": "section_break_dhls",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "sales_partner",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Sales Partner",
+   "options": "Sales Partner"
+  },
+  {
+   "fieldname": "column_break_opei",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "latitude",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Latitude"
+  },
+  {
+   "fieldname": "longitude",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Longitude"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-06-13 21:57:43.443405",
+ "modified_by": "Administrator",
+ "module": "Tac",
+ "name": "Customer Visit",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

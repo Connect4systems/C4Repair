@@ -1,0 +1,405 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:naming_series",
+ "creation": "2025-02-24 00:09:46.014787",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "job_card_details_tab",
+  "section_break_kutp",
+  "item_code",
+  "item_name",
+  "serial_number",
+  "warranty_expire_date",
+  "warranty_status",
+  "column_break_ddqq",
+  "technician_name",
+  "receiving_date",
+  "item_image",
+  "image_url",
+  "section_break_jxcb",
+  "customer_name",
+  "customer_mobile",
+  "source_warehouse",
+  "target_warehouse",
+  "column_break_ecxc",
+  "failure_description",
+  "section_break_cfek",
+  "amended_from",
+  "naming_series",
+  "section_break_eyti",
+  "item_card",
+  "sales_invoice",
+  "column_break_ckth",
+  "receive_item",
+  "stock_entry",
+  "technical_tab",
+  "spare_parts",
+  "section_break_eaqj",
+  "column_break_tnwj",
+  "item_image_copy",
+  "item_code_copy",
+  "column_break_aape",
+  "invoicing_tab",
+  "items",
+  "section_break_ygsn",
+  "total_spare_parts_amount",
+  "column_break_yots",
+  "technical_fees",
+  "column_break_mxaz",
+  "total_amount",
+  "section_break_ictf",
+  "additional_note",
+  "tab_4_tab",
+  "daigram_preview",
+  "daigram_details_section",
+  "daigram_image"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_cfek",
+   "fieldtype": "Section Break",
+   "max_height": "300 px",
+   "width": "100 px"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Job Cards",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "job_card_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Job Card Details"
+  },
+  {
+   "fieldname": "section_break_jxcb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "receive_item.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Link",
+   "label": "Customer Name",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "receive_item.customer_mobile",
+   "fieldname": "customer_mobile",
+   "fieldtype": "Data",
+   "label": "Customer Mobile",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ecxc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "receive_item.failure_description",
+   "fieldname": "failure_description",
+   "fieldtype": "Small Text",
+   "label": "Failure Description",
+   "read_only": 1
+  },
+  {
+   "fieldname": "technical_tab",
+   "fieldtype": "Tab Break",
+   "label": "Technical"
+  },
+  {
+   "fieldname": "invoicing_tab",
+   "fieldtype": "Tab Break",
+   "label": "Invoicing"
+  },
+  {
+   "fieldname": "section_break_kutp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "label": "Item Code",
+   "options": "Item",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "item_code.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Item Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ddqq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "serial_number",
+   "fieldtype": "Link",
+   "label": "Serial Number",
+   "options": "Serial No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "item_image",
+   "fieldtype": "Image",
+   "options": "image_url",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "receive_item.warranty_status",
+   "fieldname": "warranty_status",
+   "fieldtype": "Select",
+   "label": "Warranty Status",
+   "options": "\nUnder Warranty\nOut of Warranty\nUnder AMC\nOut of AMC",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "receive_item.warranty_expire_date",
+   "fieldname": "warranty_expire_date",
+   "fieldtype": "Date",
+   "label": "Warranty Expire Date",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "receive_item.receiving_date",
+   "fieldname": "receiving_date",
+   "fieldtype": "Date",
+   "label": "Receiving Date",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "technician_name",
+   "fieldtype": "Link",
+   "label": "Technician Name",
+   "options": "Technician"
+  },
+  {
+   "columns": 1,
+   "fieldname": "item_code_copy",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Item Code Copy",
+   "options": "Item"
+  },
+  {
+   "columns": 1,
+   "fieldname": "item_image_copy",
+   "fieldtype": "Image",
+   "hidden": 1,
+   "options": "image_url",
+   "read_only": 1
+  },
+  {
+   "fieldname": "spare_parts",
+   "fieldtype": "HTML",
+   "label": "Spare Parts"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Job Cards Items"
+  },
+  {
+   "fieldname": "section_break_ygsn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_spare_parts_amount",
+   "fieldtype": "Currency",
+   "label": "Total Spare Parts amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_yots",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "technical_fees",
+   "fieldtype": "Currency",
+   "label": "Technical Fees"
+  },
+  {
+   "fieldname": "column_break_mxaz",
+   "fieldtype": "Column Break",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount"
+  },
+  {
+   "fieldname": "section_break_ictf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "additional_note",
+   "fieldtype": "Text Editor",
+   "label": "Additional Note"
+  },
+  {
+   "fieldname": "section_break_eyti",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "item_card",
+   "fieldtype": "Link",
+   "label": "Item Card",
+   "options": "Item Card",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ckth",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "receive_item",
+   "fieldtype": "Link",
+   "label": "Receive Item",
+   "options": "Receive Item"
+  },
+  {
+   "columns": 1,
+   "fieldname": "column_break_tnwj",
+   "fieldtype": "Column Break",
+   "width": "100px"
+  },
+  {
+   "fieldname": "section_break_eaqj",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_aape",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "target_warehouse",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Target Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "source_warehouse",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Source Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "image_url",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Image URL",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "label": "Sales Invoice",
+   "options": "Sales Invoice",
+   "read_only": 1
+  },
+  {
+   "fieldname": "stock_entry",
+   "fieldtype": "Link",
+   "label": "Stock Entry",
+   "options": "Stock Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming series",
+   "options": "JC-.YY.-.####."
+  },
+  {
+   "fieldname": "tab_4_tab",
+   "fieldtype": "Tab Break",
+   "label": "Daigram Details"
+  },
+  {
+   "fieldname": "daigram_details_section",
+   "fieldtype": "Section Break",
+   "label": "Daigram Details"
+  },
+  {
+   "fetch_from": "item_code.daigram_image",
+   "fieldname": "daigram_image",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Daigram Image",
+   "read_only": 1
+  },
+  {
+   "fieldname": "daigram_preview",
+   "fieldtype": "Image",
+   "label": "Daigram Preview",
+   "options": "daigram_image",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "group": "Sales Invoice",
+   "link_doctype": "Sales Invoice",
+   "link_fieldname": "job_cards"
+  },
+  {
+   "group": "Stock Entry",
+   "link_doctype": "Stock Entry",
+   "link_fieldname": "job_cards"
+  }
+ ],
+ "modified": "2025-03-14 02:53:07.526718",
+ "modified_by": "Administrator",
+ "module": "Tac",
+ "name": "Job Cards",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Maintenance Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

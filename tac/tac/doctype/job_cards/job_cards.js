@@ -1,0 +1,330 @@
+frappe.ui.form.on("Job Cards", {
+    refresh: function(frm) {
+        addCSS();
+        buildTechnicalTab(frm);
+        // frm.set_df_property("technician_name", "hidden", 1);
+        // frm.set_df_property("item_code", "hidden", 1);
+    //   setTimeout(() => {
+    //     const stockEntryButton = document.querySelector('.document-link[data-doctype="Stock Entry"] .btn-new');
+    //     if (stockEntryButton) {
+    //         stockEntryButton.style.display = 'none';
+    //       }
+    //   }, 500);   
+    // //   setTimeout(() => {
+    // //       const paymentEntryButton = document.querySelector('.document-link[data-doctype="Payment Entry"] .btn-new');
+    // //       if (paymentEntryButton) {
+    // //           paymentEntryButton.style.display = 'none';
+    // //         }
+    // //     }, 500);     
+        setTimeout(() => {
+            const salesInvoiceButton = document.querySelector('.document-link[data-doctype="Sales Invoice"] .btn-new');
+            if (salesInvoiceButton) {
+                salesInvoiceButton.style.display = 'none';
+            }
+        }, 500);
+    },
+    onload: function (frm) {
+        // استخدام دالة غير متزامنة لجلب القيمة
+        // frappe.db.get_single_value('TAC Settings', 'default_target_warehouse')
+        //     .then(defaultTargetWarehouse => {
+        //         if (defaultTargetWarehouse) {
+        //             // التأكد من وجود المستودع قبل التعيين
+        //             frappe.db.exists('Warehouse', defaultTargetWarehouse)
+        //                 .then(exists => {
+        //                     if (exists) {
+        //                         frm.set_value("target_warehouse", defaultTargetWarehouse);
+        //                     } else {
+        //                         frappe.msgprint({
+        //                             title: __("مستودع غير موجود"),
+        //                             indicator: "red",
+        //                             message: __("المستودع المحدد في الإعدادات غير موجود: {0}", [defaultTargetWarehouse])
+        //                         });
+        //                     }
+        //                 });
+        //         } else {
+        //             frappe.msgprint({
+        //                 title: __("إعدادات ناقصة"),
+        //                 indicator: "red",
+        //                 message: __("يجب تعبئة حقل 'Default Target Warehouse' في إعدادات التأجير أولاً")
+        //             });
+        //         }
+        //     });                
+    },
+    item_code: function(frm) {
+        addCSS();
+        buildTechnicalTab(frm);
+    }
+});
+
+function addCSS() {
+    let css = `
+        .spare-parts-table {
+            width: 100% !important;
+            border-collapse: collapse;
+            font-family: sans-serif;
+        }
+
+        .spare-parts-table thead {
+            display: table;
+            width: 100%;
+            background-color: #f1f1f1;
+            position: sticky;
+            top: 0;
+        }
+
+        .spare-parts-table tbody {
+            display: block;
+            max-height: calc(4 * 88px); /* ارتفاع 4 صفوف */
+            overflow-y: auto;
+        }
+
+        .spare-parts-table tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            height: 45px; /* ارتفاع كل صف */
+        }
+
+        .spare-parts-table th,
+        .spare-parts-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+            width: 20% !important;
+        }
+
+        .spare-parts-table tbody::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .spare-parts-table tbody::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        .job-card-tabs { margin-bottom: 20px; }
+        .job-card-details-section { 
+            background-color: #fdf6ed;
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+        .spare-parts-table img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        .tab-bar {
+            display: flex;
+            border-bottom: 1px solid #ccc;
+            background-color: #f8f8f8;
+        }
+    `;
+
+    let style = document.createElement('style');
+    style.innerHTML = css;
+    document.head.appendChild(style);
+}
+
+function buildTechnicalTab(frm) {
+    let item_code = frm.doc.item_code;
+
+    if (!item_code) {
+        let html = getStaticLayout(frm, {
+            technician_name: frm.doc.technician_name || "",
+            item_code: frm.doc.item_code || "",
+            items: [],
+            image_url: frm.doc.image_url
+        });
+        frm.get_field("spare_parts").$wrapper.html(html);
+        return;
+    }
+
+    frappe.call({
+        doc: frm.doc,
+        method: "get_bom",
+        args: {
+            item: item_code
+        },
+        callback: function(r) {
+            let bom = r.message;
+            if (!bom) {
+                let html = getStaticLayout(frm, {
+                    technician_name: frm.doc.technician_name || "",
+                    item_code: frm.doc.item_code || "",
+                    items: [],
+                    no_bom_message: "No BOM found for this item.",
+                    image_url: frm.doc.image_url
+                });
+                frm.get_field("spare_parts").$wrapper.html(html);
+                return;
+            }
+
+            frappe.call({
+                doc: frm.doc,
+                method: "get_items_from_bom",
+                args: {
+                    bom: bom
+                },
+                callback: function(r2) {
+                    let items = r2.message || [];
+                    let html = getStaticLayout(frm, {
+                        technician_name: frm.doc.technician_name || "",
+                        item_code: frm.doc.item_code || "",
+                        items: items,
+                        image_url: frm.doc.image_url
+                    });
+
+                    frm.get_field("spare_parts").$wrapper.html(html);
+
+                    setTimeout(() => {
+                        addClickEventsToImages(frm);
+                        const table = frm.get_field("spare_parts").$wrapper.find(".spare-parts-table");
+                        if (table.length) {
+                            table.css({
+                                "max-height": "400px",
+                                "overflow-y": "auto",
+                                "overflow-x": "auto"
+                            });
+                        }
+                    }, 300);
+                }
+            });
+        }
+    });
+}
+
+function getStaticLayout(frm, data) {
+    let rowsHtml = buildTableRows(data.items);
+    const leftImage = data.image_url;
+
+    let html = `
+      <div style="font-family: Arial, sans-serif; ">
+        <div style="display: flex; border: 1px solid #ccc;">
+          <div style="max-height: calc(4 * 88px + 40px); background-color: #fdf6ed; border-right: 1px solid #ccc; padding: 20px; text-align: center;">
+            <div style="font-weight: bold; margin-bottom: 20px; font-size: 14px;">
+              Technician Name
+            </div>
+            <div style="margin-bottom: 20px;">
+              ${data.technician_name || ""}
+            </div>
+            <img src="${leftImage}" 
+                 style="width: 100%; max-width: 150px; border: 1px solid #ccc;"
+                 alt="Drill Image">
+            <div style="font-weight: bold; margin-top: 20px; font-size: 14px;">
+              Item Code
+            </div>
+            <div>
+              ${data.item_code || ""}
+            </div>            
+          </div>
+          <div style="flex: 1;">
+            <table class="spare-parts-table" style="width: 100%; min-width: 600px;">
+              <thead style="background-color: #f1f1f1;">
+                <tr>
+                  <th>.#.</th>
+                  <th>Image</th>
+                  <th>Item name</th>
+                  <th>Price</th>
+                  <th>QTY</th>
+                  <th>Available QTY</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rowsHtml}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    `;
+    return html;
+}
+
+function buildTableRows(items) {
+    let rowsHtml = "";
+    let itemCount = items ? items.length : 0;
+    if (itemCount > 0) {
+        items.forEach(item => {
+            rowsHtml += `
+          <tr>
+            <td style="width: 5%;">${item.daigram_number || ""}</td>
+            <td>
+              <img src="${item.image || ''}" 
+                   style="width: 100px; height: 70px; object-fit: cover; cursor: pointer;"
+                   class="select-item"
+                   data-item-code="${item.item_code}"
+                   data-daigram_number="${item.daigram_number}"
+                   data-item-name="${item.item_name}"
+                   data-price="${item.price || 0}"
+                   data-available-qty="${item.available_qty || 0}">
+            </td>
+            <td>${item.item_name || ''}</td>
+            <td>${item.price || 0}</td>
+            <td>${item.qty || 0}</td>
+            <td>${item.available_qty || 0}</td>
+          </tr>
+        `;
+        });
+    }
+
+    for (let i = itemCount; i < 4; i++) {
+        rowsHtml += `
+            <tr style="height: 45px;">
+                <td colspan="5" style="text-align: center;">
+                    ${i === 0 && itemCount === 0 ? 'No items found' : ''}
+                </td>
+            </tr>
+        `;
+    }
+
+    return rowsHtml;
+}
+
+function addClickEventsToImages(frm) {
+    frm.get_field("spare_parts").$wrapper.find("img.select-item").on("click", function() {
+        let item_code = $(this).data("item-code");
+        let price = parseFloat($(this).data("price") || 0);
+
+        frappe.call({
+            method: 'frappe.client.get',
+            args: {
+                doctype: 'Item',
+                name: item_code
+            },
+            callback: function(item_response) {
+                const item_details = item_response.message;
+                if (item_details) {
+                    let item_found = false;
+                    frm.doc.items.forEach(row => {
+                        if (row.item_code === item_details.name) {
+                            item_found = true;
+                            let new_qty = row.qty + 1;
+                            frappe.model.set_value(row.doctype, row.name, 'qty', new_qty);
+                            frappe.model.set_value(row.doctype, row.name, 'subtotal', new_qty * row.price);
+                        }
+                    });
+
+                    if (!item_found) {
+                        let new_row = frm.add_child('items');
+                        new_row.item_code = item_details.name;
+                        new_row.item_name = item_details.item_name;
+                        new_row.price = price;
+                        new_row.qty = 1;
+                        new_row.subtotal = price * 1;
+                    }
+
+                    frm.refresh_field('items');
+                    frm.dirty();
+                    frm.save();
+                }
+            }
+        });
+    });
+}
+
+if (window.jQuery) {
+    console.log('jQuery is loaded');
+} else {
+    console.log('jQuery is NOT loaded');
+}

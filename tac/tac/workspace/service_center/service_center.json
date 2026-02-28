@@ -1,0 +1,81 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"m6US3O8Zxy\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Technical Assistance Center</span>\",\"col\":12}},{\"id\":\"fDxQ-Aybpb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item Card\",\"col\":3}},{\"id\":\"d3RWyrK92i\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Receive Item\",\"col\":3}},{\"id\":\"tVOHSYe8m9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Cards\",\"col\":3}},{\"id\":\"7EwYVrGd3E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Technician\",\"col\":3}},{\"id\":\"t-LHXjqSK-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"TAC Settings\",\"col\":3}},{\"id\":\"lU4aEJyL83\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}}]",
+ "creation": "2025-02-23 23:27:13.913995",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "solid-info",
+ "idx": 0,
+ "indicator_color": "",
+ "is_hidden": 0,
+ "label": "Service Center",
+ "links": [],
+ "modified": "2025-06-12 14:10:42.108331",
+ "modified_by": "Administrator",
+ "module": "Tac",
+ "name": "Service Center",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "Maintenance Manager"
+  }
+ ],
+ "sequence_id": 2.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Item",
+   "link_to": "Item",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Item Card",
+   "link_to": "Item Card",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "TAC Settings",
+   "link_to": "TAC Settings",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Receive Item",
+   "link_to": "Receive Item",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Job Cards",
+   "link_to": "Job Cards",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Technician",
+   "link_to": "Technician",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Service Center"
+}
