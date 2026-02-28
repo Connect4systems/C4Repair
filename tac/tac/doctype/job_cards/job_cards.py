@@ -145,6 +145,15 @@ class JobCards(Document):
             return ""
         
         try:
+            default_bom = frappe.db.get_value(
+                "BOM",
+                {"item": item, "docstatus": 1, "is_active": 1, "is_default": 1},
+                "name"
+            )
+
+            if default_bom:
+                return default_bom
+
             bom_list = frappe.get_all(
                 "BOM",
                 filters={"item": item, "docstatus": 1, "is_active": 1},

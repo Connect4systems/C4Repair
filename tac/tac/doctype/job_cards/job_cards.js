@@ -1,7 +1,11 @@
 frappe.ui.form.on("Job Cards", {
+    setup: function(frm) {
+        setBomQuery(frm);
+    },
     refresh: function(frm) {
         addCSS();
-        buildTechnicalTab(frm);
+        setBomQuery(frm);
+        syncDefaultBomAndBuild(frm);
         // frm.set_df_property("technician_name", "hidden", 1);
         // frm.set_df_property("item_code", "hidden", 1);
     // //   setTimeout(() => {
@@ -18,6 +22,8 @@ frappe.ui.form.on("Job Cards", {
         }, 500);
     },
     onload: function (frm) {
+        setBomQuery(frm);
+        syncDefaultBomAndBuild(frm);
         // استخدام دالة غير متزامنة لجلب القيمة
         // frappe.db.get_single_value('TAC Settings', 'default_target_warehouse')
         //     .then(defaultTargetWarehouse => {
@@ -46,9 +52,54 @@ frappe.ui.form.on("Job Cards", {
     },
     item_code: function(frm) {
         addCSS();
+        setBomQuery(frm);
+        frm.set_value("bom", null);
+        syncDefaultBomAndBuild(frm);
+    },
+    bom: function(frm) {
         buildTechnicalTab(frm);
     }
 });
+
+function setBomQuery(frm) {
+    frm.set_query("bom", function() {
+        return {
+            filters: {
+                item: frm.doc.item_code || "",
+                docstatus: 1,
+                is_active: 1
+            }
+        };
+    });
+}
+
+function syncDefaultBomAndBuild(frm) {
+    if (!frm.doc.item_code) {
+        buildTechnicalTab(frm);
+        return;
+    }
+
+    if (frm.doc.bom) {
+        buildTechnicalTab(frm);
+        return;
+    }
+
+    frappe.call({
+        doc: frm.doc,
+        method: "get_bom",
+        args: {
+            item: frm.doc.item_code
+        },
+        callback: function(r) {
+            const defaultBom = r.message;
+            if (defaultBom && defaultBom !== frm.doc.bom) {
+                frm.set_value("bom", defaultBom);
+            } else {
+                buildTechnicalTab(frm);
+            }
+        }
+    });
+}
 
 function addCSS() {
     let css = `
@@ -122,6 +173,7 @@ function addCSS() {
 
 function buildTechnicalTab(frm) {
     let item_code = frm.doc.item_code;
+    let bom = frm.doc.bom;
 
     if (!item_code) {
         let html = getStaticLayout(frm, {
@@ -134,56 +186,46 @@ function buildTechnicalTab(frm) {
         return;
     }
 
+    if (!bom) {
+        let html = getStaticLayout(frm, {
+            technician_name: frm.doc.technician_name || "",
+            item_code: frm.doc.item_code || "",
+            items: [],
+            no_bom_message: "No BOM found for this item.",
+            image_url: frm.doc.image_url
+        });
+        frm.get_field("spare_parts").$wrapper.html(html);
+        return;
+    }
+
     frappe.call({
         doc: frm.doc,
-        method: "get_bom",
+        method: "get_items_from_bom",
         args: {
-            item: item_code
+            bom: bom
         },
-        callback: function(r) {
-            let bom = r.message;
-            if (!bom) {
-                let html = getStaticLayout(frm, {
-                    technician_name: frm.doc.technician_name || "",
-                    item_code: frm.doc.item_code || "",
-                    items: [],
-                    no_bom_message: "No BOM found for this item.",
-                    image_url: frm.doc.image_url
-                });
-                frm.get_field("spare_parts").$wrapper.html(html);
-                return;
-            }
-
-            frappe.call({
-                doc: frm.doc,
-                method: "get_items_from_bom",
-                args: {
-                    bom: bom
-                },
-                callback: function(r2) {
-                    let items = r2.message || [];
-                    let html = getStaticLayout(frm, {
-                        technician_name: frm.doc.technician_name || "",
-                        item_code: frm.doc.item_code || "",
-                        items: items,
-                        image_url: frm.doc.image_url
-                    });
-
-                    frm.get_field("spare_parts").$wrapper.html(html);
-
-                    setTimeout(() => {
-                        addClickEventsToImages(frm);
-                        const table = frm.get_field("spare_parts").$wrapper.find(".spare-parts-table");
-                        if (table.length) {
-                            table.css({
-                                "max-height": "400px",
-                                "overflow-y": "auto",
-                                "overflow-x": "auto"
-                            });
-                        }
-                    }, 300);
-                }
+        callback: function(r2) {
+            let items = r2.message || [];
+            let html = getStaticLayout(frm, {
+                technician_name: frm.doc.technician_name || "",
+                item_code: frm.doc.item_code || "",
+                items: items,
+                image_url: frm.doc.image_url
             });
+
+            frm.get_field("spare_parts").$wrapper.html(html);
+
+            setTimeout(() => {
+                addClickEventsToImages(frm);
+                const table = frm.get_field("spare_parts").$wrapper.find(".spare-parts-table");
+                if (table.length) {
+                    table.css({
+                        "max-height": "400px",
+                        "overflow-y": "auto",
+                        "overflow-x": "auto"
+                    });
+                }
+            }, 300);
         }
     });
 }
