@@ -233,7 +233,7 @@
      "fieldtype": "Select",
      "in_list_view": 1,
      "label": "Status",
-     "options": "Received\nReturned",
+    "options": "Received\nPickup\nReturned",
      "read_only": 1
   }
  ],
@@ -305,6 +305,10 @@
   {
    "color": "Red",
    "title": "Received"
+  },
+  {
+   "color": "Orange",
+   "title": "Pickup"
   },
   {
    "color": "Green",

@@ -40,7 +40,7 @@ def update_receive_item_status(sales_invoice_doc):
 
     if frappe.db.exists("Receive Item", receive_item_name):
         try:
-            frappe.db.set_value("Receive Item", receive_item_name, "status", "Returned", update_modified=False)
+            frappe.db.set_value("Receive Item", receive_item_name, "status", "Pickup", update_modified=False)
         except Exception as exc:
             if "Unknown column 'status'" in str(exc):
                 return

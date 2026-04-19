@@ -6,9 +6,23 @@ class ReceiveItem(Document):
 		self.set_status_if_available("Received")
 		self.create_job_cards_base_on_receive_item()
 
+	def set_pickup_status(self):
+		self.set_status_if_available("Pickup")
+
+	@frappe.whitelist()
+	def mark_as_returned(self):
+		if self.docstatus != 1:
+			frappe.throw("Return is allowed only for submitted Receive Item.")
+
+		if self.status == "Returned":
+			return
+
+		self.set_status_if_available("Returned")
+
 	def set_status_if_available(self, status_value):
 		try:
 			self.db_set("status", status_value, update_modified=False)
+			self.status = status_value
 		except Exception as exc:
 			if "Unknown column 'status'" in str(exc):
 				return

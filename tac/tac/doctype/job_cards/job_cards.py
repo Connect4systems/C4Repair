@@ -12,6 +12,18 @@ class JobCards(Document):
         self.calculate_total_spare_parts_amount()
     def on_submit(self):
         self.create_sales_invoice()
+        self.update_receive_item_pickup_status()
+
+    def update_receive_item_pickup_status(self):
+        receive_item_name = self.receive_item
+        if not receive_item_name:
+            return
+
+        if not frappe.db.exists("Receive Item", receive_item_name):
+            return
+
+        receive_item_doc = frappe.get_doc("Receive Item", receive_item_name)
+        receive_item_doc.set_pickup_status()
     def validate_for_items(self):
         for d in self.get("items"):
             tot_avail_qty = frappe.db.sql(

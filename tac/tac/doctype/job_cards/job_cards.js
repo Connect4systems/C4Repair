@@ -13,6 +13,8 @@ frappe.ui.form.on("Job Cards", {
         setBomQuery(frm);
         syncDefaultBomAndBuild(frm);
         calculateTotals(frm);
+        // Recalculate after grid/data is fully rendered.
+        setTimeout(() => calculateTotals(frm), 150);
         // frm.set_df_property("technician_name", "hidden", 1);
         // frm.set_df_property("item_code", "hidden", 1);
     // //   setTimeout(() => {
@@ -105,10 +107,13 @@ function calculateTotals(frm) {
     const technicalFees = parseFloat(frm.doc.technical_fees) || 0;
     const totalAmount = totalSparePartsAmount + technicalFees;
 
-    frm.set_value({
-        total_spare_parts_amount: totalSparePartsAmount,
-        total_amount: totalAmount
-    });
+    if ((parseFloat(frm.doc.total_spare_parts_amount) || 0) !== totalSparePartsAmount) {
+        frm.set_value("total_spare_parts_amount", totalSparePartsAmount);
+    }
+
+    if ((parseFloat(frm.doc.total_amount) || 0) !== totalAmount) {
+        frm.set_value("total_amount", totalAmount);
+    }
 }
 
 function setBomQuery(frm) {

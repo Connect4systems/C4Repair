@@ -4,9 +4,15 @@
 frappe.ui.form.on("Receive Item", {
 	refresh(frm) {
         if (frm.doc.docstatus === 1 && frm.doc.status) {
+            const statusColor = {
+                "Received": "blue",
+                "Pickup": "orange",
+                "Returned": "green"
+            };
+
             frm.set_intro(
                 __("Receive Item Status: {0}", [frm.doc.status]),
-                frm.doc.status === "Returned" ? "green" : "orange"
+                statusColor[frm.doc.status] || "orange"
             );
         }
 
@@ -15,6 +21,13 @@ frappe.ui.form.on("Receive Item", {
             frm.add_custom_button(__("Job Cards"), function() {
                 frappe.set_route('Form', "Job Cards", frm.doc.job_cards);
             });
+
+            if (frm.doc.status === "Pickup") {
+                frm.add_custom_button(__("Return"), function() {
+                    frm.call("mark_as_returned")
+                        .then(() => frm.reload_doc());
+                }, __("Actions"));
+            }
 		}
 	},
     item_code: function(frm) {
