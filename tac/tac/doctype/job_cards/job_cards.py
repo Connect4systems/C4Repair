@@ -9,8 +9,7 @@ class JobCards(Document):
     def validate(self):
         self.validate_for_items()
     def before_save(self):
-        # self.calculate_total_spare_parts_amount()
-        pass
+        self.calculate_total_spare_parts_amount()
     def on_submit(self):
         self.create_sales_invoice()
     def validate_for_items(self):
@@ -22,13 +21,14 @@ class JobCards(Document):
             )
             d.available_qty = tot_avail_qty and flt(tot_avail_qty[0][0]) or 0
     def calculate_total_spare_parts_amount(self):
-        total_amount = 0
-        for item in self.items:
-            price = float(item.price) 
-            qty = float(item.qty)
-            total_amount += price * qty
-        self.total_spare_parts_amount = total_amount
-        self.total_amount = self.total_spare_parts_amount + self.technical_fees
+        total_spare_parts_amount = 0
+        for item in self.get("items"):
+            price = flt(item.price)
+            qty = flt(item.qty)
+            total_spare_parts_amount += price * qty
+
+        self.total_spare_parts_amount = total_spare_parts_amount
+        self.total_amount = total_spare_parts_amount + flt(self.technical_fees)
         
     def create_sales_invoice(self):
         """

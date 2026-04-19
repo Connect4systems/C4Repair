@@ -5,10 +5,14 @@ frappe.ui.form.on("Job Cards", {
     setup: function(frm) {
         setBomQuery(frm);
     },
+    onload_post_render: function(frm) {
+        calculateTotals(frm);
+    },
     refresh: function(frm) {
         addCSS();
         setBomQuery(frm);
         syncDefaultBomAndBuild(frm);
+        calculateTotals(frm);
         // frm.set_df_property("technician_name", "hidden", 1);
         // frm.set_df_property("item_code", "hidden", 1);
     // //   setTimeout(() => {
@@ -27,6 +31,7 @@ frappe.ui.form.on("Job Cards", {
     onload: function (frm) {
         setBomQuery(frm);
         syncDefaultBomAndBuild(frm);
+        calculateTotals(frm);
         // استخدام دالة غير متزامنة لجلب القيمة
         // frappe.db.get_single_value('TAC Settings', 'default_target_warehouse')
         //     .then(defaultTargetWarehouse => {
@@ -68,8 +73,43 @@ frappe.ui.form.on("Job Cards", {
             });
         }
         buildTechnicalTab(frm);
+    },
+    technical_fees: function(frm) {
+        calculateTotals(frm);
+    },
+    items_add: function(frm) {
+        calculateTotals(frm);
+    },
+    items_remove: function(frm) {
+        calculateTotals(frm);
     }
 });
+
+frappe.ui.form.on("Job Cards Items", {
+    price: function(frm) {
+        calculateTotals(frm);
+    },
+    qty: function(frm) {
+        calculateTotals(frm);
+    }
+});
+
+function calculateTotals(frm) {
+    const items = frm.doc.items || [];
+    const totalSparePartsAmount = items.reduce((sum, row) => {
+        const price = parseFloat(row.price) || 0;
+        const qty = parseFloat(row.qty) || 0;
+        return sum + (price * qty);
+    }, 0);
+
+    const technicalFees = parseFloat(frm.doc.technical_fees) || 0;
+    const totalAmount = totalSparePartsAmount + technicalFees;
+
+    frm.set_value({
+        total_spare_parts_amount: totalSparePartsAmount,
+        total_amount: totalAmount
+    });
+}
 
 function setBomQuery(frm) {
     frm.set_query("bom", function() {
@@ -427,6 +467,7 @@ function addClickEventsToImages(frm) {
                     }
 
                     frm.refresh_field('items');
+                    calculateTotals(frm);
                     frm.dirty();
                     frm.save();
                 }

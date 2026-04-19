@@ -222,7 +222,8 @@
   {
    "fieldname": "total_amount",
    "fieldtype": "Currency",
-   "label": "Total Amount"
+    "label": "Total Amount",
+    "read_only": 1
   },
   {
    "fieldname": "section_break_ictf",
