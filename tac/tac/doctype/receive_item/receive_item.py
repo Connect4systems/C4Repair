@@ -1,5 +1,6 @@
 import frappe
 from frappe.model.document import Document
+from frappe.utils import nowdate
 
 class ReceiveItem(Document):
 	def on_submit(self):
@@ -14,10 +15,54 @@ class ReceiveItem(Document):
 		if self.docstatus != 1:
 			frappe.throw("Return is allowed only for submitted Receive Item.")
 
-		if self.status == "Returned":
-			return
+		return_date_value = nowdate()
 
-		self.set_status_if_available("Returned")
+		if self.status != "Returned":
+			self.set_status_if_available("Returned")
+
+		self.set_return_date_if_available(return_date_value)
+		self.update_related_job_cards_return_date(return_date_value)
+
+	def set_return_date_if_available(self, return_date_value):
+		try:
+			self.db_set("return_date", return_date_value, update_modified=False)
+			self.return_date = return_date_value
+		except Exception as exc:
+			if "Unknown column 'return_date'" in str(exc):
+				return
+			raise
+
+	def update_related_job_cards_return_date(self, return_date_value):
+		job_card_names = set()
+
+		if getattr(self, "job_cards", None):
+			job_card_names.add(self.job_cards)
+
+		linked_job_cards = frappe.get_all(
+			"Job Cards",
+			filters={"receive_item": self.name},
+			pluck="name",
+		)
+
+		for job_card_name in linked_job_cards:
+			job_card_names.add(job_card_name)
+
+		for job_card_name in job_card_names:
+			if not frappe.db.exists("Job Cards", job_card_name):
+				continue
+
+			try:
+				frappe.db.set_value(
+					"Job Cards",
+					job_card_name,
+					"return_date",
+					return_date_value,
+					update_modified=False,
+				)
+			except Exception as exc:
+				if "Unknown column 'return_date'" in str(exc):
+					continue
+				raise
 
 	def set_status_if_available(self, status_value):
 		try:

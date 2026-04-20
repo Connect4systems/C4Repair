@@ -253,6 +253,39 @@ class JobCards(Document):
         )
         available_qty = tot_avail_qty and flt(tot_avail_qty[0][0]) or 0
         return  available_qty        
+
+
+@frappe.whitelist()
+def get_latest_selling_price(item_code):
+    """Return latest selling price for an item from the configured selling price list."""
+    if not item_code:
+        return 0
+
+    try:
+        price_list = (
+            frappe.db.get_single_value("Selling Settings", "selling_price_list")
+            or "Standard Selling"
+        )
+
+        latest_item_price = frappe.get_all(
+            "Item Price",
+            filters={"item_code": item_code, "price_list": price_list},
+            fields=["price_list_rate"],
+            order_by="modified desc",
+            limit=1,
+        )
+
+        if latest_item_price:
+            return flt(latest_item_price[0].get("price_list_rate"))
+    except Exception as e:
+        frappe.log_error(
+            _("Error fetching latest selling price for item '{0}': {1}").format(item_code, str(e)),
+            "get_latest_selling_price",
+        )
+
+    return 0
+
+
 def get_settings():
     """Fetches the TAC Setting."""
     # Fetch the latest settings

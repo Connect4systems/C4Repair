@@ -88,6 +88,26 @@ frappe.ui.form.on("Job Cards", {
 });
 
 frappe.ui.form.on("Job Cards Items", {
+    item_code: function(frm, cdt, cdn) {
+        const row = locals[cdt][cdn];
+        if (!row || !row.item_code) {
+            return;
+        }
+
+        frappe.call({
+            method: "tac.tac.doctype.job_cards.job_cards.get_latest_selling_price",
+            args: {
+                item_code: row.item_code
+            },
+            callback: function(r) {
+                if (r && !r.exc) {
+                    const latestPrice = parseFloat(r.message) || 0;
+                    frappe.model.set_value(cdt, cdn, "price", latestPrice);
+                    calculateTotals(frm);
+                }
+            }
+        });
+    },
     price: function(frm) {
         calculateTotals(frm);
     },
