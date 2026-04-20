@@ -70,6 +70,7 @@
    "label": "Failure Description"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "serial_number",
    "fieldtype": "Link",
    "label": "Serial Number",
@@ -219,6 +220,9 @@
   {
    "fieldname": "agent",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Agent"
   },
   {
@@ -251,7 +255,7 @@
   }
  ],
  "make_attachments_public": 1,
- "modified": "2026-04-20 11:22:16.315227",
+ "modified": "2026-04-20 11:59:28.528668",
  "modified_by": "Administrator",
  "module": "Tac",
  "name": "Receive Item",

@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"m6US3O8Zxy\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Technical Assistance Center</span>\",\"col\":12}},{\"id\":\"d3RWyrK92i\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Receive Item\",\"col\":3}},{\"id\":\"tVOHSYe8m9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Cards\",\"col\":3}},{\"id\":\"7EwYVrGd3E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Technician\",\"col\":3}},{\"id\":\"t-LHXjqSK-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"TAC Settings\",\"col\":3}},{\"id\":\"lU4aEJyL83\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}}]",
+ "content": "[{\"id\":\"m6US3O8Zxy\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Technical Assistance Center</span>\",\"col\":12}},{\"id\":\"d3RWyrK92i\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Receive Item\",\"col\":3}},{\"id\":\"CmMHszbqZF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Cards\",\"col\":3}},{\"id\":\"7EwYVrGd3E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Technician\",\"col\":3}},{\"id\":\"_0p_K2Prwk\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"lU4aEJyL83\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"ZqRBcdrLuL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Idendity No\",\"col\":3}},{\"id\":\"Sl0T1kuX5P\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Serial No\",\"col\":3}}]",
  "creation": "2025-02-23 23:27:13.913995",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "Service Center",
  "links": [],
- "modified": "2026-02-28 13:36:15.000721",
+ "modified": "2026-04-20 11:57:38.690535",
  "modified_by": "Administrator",
  "module": "Tac",
  "name": "Service Center",
@@ -32,23 +32,16 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Item",
-   "link_to": "Item",
+   "label": "Idendity No",
+   "link_to": "Idendity No",
    "stats_filter": "[]",
    "type": "DocType"
   },
   {
    "color": "Grey",
-    "doc_view": "Form",
-   "label": "TAC Settings",
-   "link_to": "TAC Settings",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
    "doc_view": "List",
-   "label": "Receive Item",
-   "link_to": "Receive Item",
+   "label": "Serial No",
+   "link_to": "Serial No",
    "stats_filter": "[]",
    "type": "DocType"
   },
@@ -57,6 +50,22 @@
    "doc_view": "List",
    "label": "Job Cards",
    "link_to": "Job Cards",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Item",
+   "link_to": "Item",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Receive Item",
+   "link_to": "Receive Item",
    "stats_filter": "[]",
    "type": "DocType"
   },
