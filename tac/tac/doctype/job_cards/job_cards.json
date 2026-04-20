@@ -12,6 +12,7 @@
   "item_name",
   "serial_number",
   "warranty_status",
+  "return_date",
   "column_break_ddqq",
   "technician_name",
   "agent",
@@ -345,8 +346,7 @@
    "fieldname": "warranty_status",
    "fieldtype": "Select",
    "label": "Warranty Status",
-   "options": "\nUnder Warranty\nOut of Warranty\nUnder AMC\nOut of AMC",
-   "read_only": 1
+   "options": "\nUnder Warranty\nOut of Warranty\nUnder AMC\nOut of AMC"
   },
   {
    "fetch_from": "receive_item.warranty_expire_date",
@@ -392,6 +392,12 @@
    "fieldname": "image_5",
    "fieldtype": "Attach Image",
    "label": "Image 5"
+  },
+  {
+   "fieldname": "return_date",
+   "fieldtype": "Date",
+   "label": "Return Date",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -401,9 +407,14 @@
    "group": "Sales Invoice",
    "link_doctype": "Sales Invoice",
    "link_fieldname": "job_cards"
+  },
+  {
+   "group": "Job Cards",
+   "link_doctype": "Receive Item",
+   "link_fieldname": "job_cards"
   }
  ],
- "modified": "2026-04-20 12:56:53.731936",
+ "modified": "2026-04-20 13:02:55.392277",
  "modified_by": "Administrator",
  "module": "Tac",
  "name": "Job Cards",
@@ -434,6 +445,17 @@
    "role": "Maintenance Manager",
    "share": 1,
    "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Maintenance User",
+   "share": 1,
    "write": 1
   }
  ],
