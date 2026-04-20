@@ -27,26 +27,59 @@ class ReceiveItem(Document):
 			if "Unknown column 'status'" in str(exc):
 				return
 			raise
-	# def before_cancel(self):
-	# 	# إلغاء جميع Job Cards المرتبطة بهذا Receive Item
-	# 	self.cancel_related_job_cards(self)
 
-	# def cancel_related_job_cards(self):
-	# 	# البحث عن جميع Job Cards المرتبطة بـ Receive Item الحالي
-	# 	job_cards = frappe.get_all("Job Card", 
-	# 		filters={"receive_item": self.name}, 
-	# 		fields=["name", "docstatus"]
-	# 	)
+	def before_cancel(self):
+		self.cancel_related_documents()
 
-	# 	# إلغاء كل Job Card إذا كانت حالة التسليم 1 (Submitted)
-	# 	for jc in job_cards:
-	# 		if jc.docstatus == 1:
-	# 			job_card = frappe.get_doc("Job Card", jc.name)
-	# 			job_card.cancel()
-	# 			frappe.db.commit()  # حفظ التغييرات فورًا
-				
-	# 	# إضافة تعليق للإشارة إلى الإلغاء
-	# 	frappe.msgprint(_("تم إلغاء جميع Job Cards المرتبطة بهذا العنصر."))
+	def on_cancel(self):
+		self.clear_connection_fields()
+
+	def cancel_related_documents(self):
+		job_cards = frappe.get_all(
+			"Job Cards",
+			filters={"receive_item": self.name},
+			fields=["name", "docstatus", "sales_invoice"],
+		)
+
+		for jc in job_cards:
+			sales_invoice_name = jc.get("sales_invoice")
+			if sales_invoice_name and frappe.db.exists("Sales Invoice", sales_invoice_name):
+				sales_invoice_doc = frappe.get_doc("Sales Invoice", sales_invoice_name)
+				if sales_invoice_doc.docstatus == 1:
+					sales_invoice_doc.flags.ignore_permissions = True
+					sales_invoice_doc.cancel()
+
+			if jc.docstatus == 1:
+				job_card_doc = frappe.get_doc("Job Cards", jc.name)
+				job_card_doc.flags.ignore_permissions = True
+				job_card_doc.cancel()
+
+	def clear_connection_fields(self):
+		meta = frappe.get_meta("Receive Item")
+		if meta.has_field("job_cards"):
+			frappe.db.set_value("Receive Item", self.name, "job_cards", None, update_modified=False)
+
+		job_cards = frappe.get_all(
+			"Job Cards",
+			filters={"receive_item": self.name},
+			fields=["name", "sales_invoice"],
+		)
+
+		for jc in job_cards:
+			jc_meta = frappe.get_meta("Job Cards")
+			if jc_meta.has_field("receive_item"):
+				frappe.db.set_value("Job Cards", jc.name, "receive_item", None, update_modified=False)
+			if jc_meta.has_field("sales_invoice"):
+				frappe.db.set_value("Job Cards", jc.name, "sales_invoice", None, update_modified=False)
+
+			sales_invoice_name = jc.get("sales_invoice")
+			if sales_invoice_name and frappe.db.exists("Sales Invoice", sales_invoice_name):
+				si_meta = frappe.get_meta("Sales Invoice")
+				if si_meta.has_field("job_cards"):
+					frappe.db.set_value("Sales Invoice", sales_invoice_name, "job_cards", None, update_modified=False)
+				if si_meta.has_field("custom_receive_item"):
+					frappe.db.set_value("Sales Invoice", sales_invoice_name, "custom_receive_item", None, update_modified=False)
+
 	def create_job_cards_base_on_receive_item(self):
 		if frappe.db.exists("Job Cards", {"receive_item":self.name}):
 			return True
