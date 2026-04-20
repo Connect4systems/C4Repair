@@ -404,17 +404,15 @@
  "is_submittable": 1,
  "links": [
   {
-   "group": "Sales Invoice",
    "link_doctype": "Sales Invoice",
    "link_fieldname": "job_cards"
   },
   {
-   "group": "Job Cards",
    "link_doctype": "Receive Item",
    "link_fieldname": "job_cards"
   }
  ],
- "modified": "2026-04-20 13:02:55.392277",
+ "modified": "2026-04-20 13:05:42.345608",
  "modified_by": "Administrator",
  "module": "Tac",
  "name": "Job Cards",
