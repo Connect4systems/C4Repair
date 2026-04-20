@@ -38,7 +38,7 @@ class ReceiveItem(Document):
 		job_cards = frappe.get_all(
 			"Job Cards",
 			filters={"receive_item": self.name},
-			fields=["name", "docstatus", "sales_invoice"],
+			fields=["name", "docstatus", "sales_invoice", "receive_item"],
 		)
 
 		for jc in job_cards:
@@ -47,11 +47,17 @@ class ReceiveItem(Document):
 				sales_invoice_doc = frappe.get_doc("Sales Invoice", sales_invoice_name)
 				if sales_invoice_doc.docstatus == 1:
 					sales_invoice_doc.flags.ignore_permissions = True
+					sales_invoice_doc.flags.ignore_links = True
+					sales_invoice_doc.ignore_linked_doctypes = ("Job Cards", "Receive Item")
 					sales_invoice_doc.cancel()
 
 			if jc.docstatus == 1:
+				if jc.get("receive_item"):
+					frappe.db.set_value("Job Cards", jc.name, "receive_item", None, update_modified=False)
 				job_card_doc = frappe.get_doc("Job Cards", jc.name)
 				job_card_doc.flags.ignore_permissions = True
+				job_card_doc.flags.ignore_links = True
+				job_card_doc.ignore_linked_doctypes = ("Receive Item",)
 				job_card_doc.cancel()
 
 	def clear_connection_fields(self):
