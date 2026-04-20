@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_events_in_timeline": 1,
  "allow_rename": 1,
  "autoname": "naming_series:naming_series",
  "creation": "2025-02-24 00:09:46.014787",
@@ -11,18 +12,23 @@
   "item_code",
   "item_name",
   "serial_number",
-  "warranty_status",
   "column_break_ddqq",
   "technician_name",
   "agent",
   "mobile",
+  "image",
+  "column_break_rvyg",
+  "product_image",
+  "section_break_gfrd",
   "receiving_date",
-  "warranty_expire_date",
-  "section_break_jxcb",
   "failure_description",
-  "column_break_ecxc",
+  "column_break_vtvn",
+  "note",
+  "section_break_jxcb",
   "item_image",
+  "column_break_ecxc",
   "image_url",
+  "column_break_sbzq",
   "section_break_cfek",
   "amended_from",
   "naming_series",
@@ -55,7 +61,14 @@
   "tab_4_tab",
   "daigram_preview",
   "daigram_details_section",
-  "daigram_image"
+  "daigram_image",
+  "report_tab",
+  "technical_report",
+  "column_break_fjdo",
+  "photo1",
+  "photo2",
+  "photo3",
+  "photo4"
  ],
  "fields": [
   {
@@ -128,31 +141,17 @@
   },
   {
    "fieldname": "serial_number",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Serial Number",
-   "options": "Serial No",
    "read_only": 1
   },
   {
+   "columns": 2,
    "fieldname": "item_image",
    "fieldtype": "Image",
    "options": "image_url",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "receive_item.warranty_status",
-   "fieldname": "warranty_status",
-   "fieldtype": "Select",
-   "label": "Warranty Status",
-   "options": "\nUnder Warranty\nOut of Warranty\nUnder AMC\nOut of AMC",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "receive_item.warranty_expire_date",
-   "fieldname": "warranty_expire_date",
-   "fieldtype": "Date",
-   "label": "Warranty Expire Date",
-   "read_only": 1
+   "read_only": 1,
+   "width": "30%"
   },
   {
    "fetch_from": "receive_item.receiving_date",
@@ -346,8 +345,77 @@
   {
    "fieldname": "section_break_orxt",
    "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "item_code.image",
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Image",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_rvyg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "product_image",
+   "fieldtype": "Image",
+   "label": "Product Image",
+   "options": "image"
+  },
+  {
+   "fieldname": "section_break_gfrd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_vtvn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "column_break_sbzq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "report_tab",
+   "fieldtype": "Tab Break",
+   "label": "Report"
+  },
+  {
+   "fieldname": "technical_report",
+   "fieldtype": "Text Editor",
+   "label": "Technical Report"
+  },
+  {
+   "fieldname": "column_break_fjdo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "photo1",
+   "fieldtype": "Attach Image",
+   "label": "Photo1"
+  },
+  {
+   "fieldname": "photo2",
+   "fieldtype": "Attach Image",
+   "label": "Photo2"
+  },
+  {
+   "fieldname": "photo3",
+   "fieldtype": "Attach Image",
+   "label": "Photo3"
+  },
+  {
+   "fieldname": "photo4",
+   "fieldtype": "Attach",
+   "label": "Photo4"
   }
  ],
+ "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [
@@ -357,7 +425,8 @@
    "link_fieldname": "job_cards"
   }
  ],
- "modified": "2026-02-28 14:34:45.182923",
+ "make_attachments_public": 1,
+ "modified": "2026-04-17 22:02:47.171871",
  "modified_by": "Administrator",
  "module": "Tac",
  "name": "Job Cards",
@@ -386,6 +455,18 @@
    "read": 1,
    "report": 1,
    "role": "Maintenance Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Maintenance User",
    "share": 1,
    "submit": 1,
    "write": 1
