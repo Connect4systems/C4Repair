@@ -16,6 +16,7 @@
   "serial_number",
   "item_name",
   "return_date",
+  "amount",
   "section_break_lkng",
   "column_break_bmcw",
   "failure_description",
@@ -246,6 +247,11 @@
    "fieldtype": "Date",
    "label": "Return Date",
    "read_only": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -262,7 +268,7 @@
   }
  ],
  "make_attachments_public": 1,
- "modified": "2026-04-20 13:02:41.386639",
+ "modified": "2026-04-21 13:24:40.521699",
  "modified_by": "Administrator",
  "module": "Tac",
  "name": "Receive Item",
