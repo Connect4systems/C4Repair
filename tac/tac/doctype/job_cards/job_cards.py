@@ -8,11 +8,50 @@ from frappe.utils import flt
 class JobCards(Document):
     def validate(self):
         self.validate_for_items()
+
     def before_save(self):
         self.calculate_total_spare_parts_amount()
+
     def on_submit(self):
+        self.sync_receive_item_amount()
         self.create_sales_invoice()
         self.update_receive_item_pickup_status()
+
+    def on_cancel(self):
+        self.sync_receive_item_amount(clear_when_missing=True)
+
+    def sync_receive_item_amount(self, clear_when_missing=False):
+        receive_item_name = self.receive_item
+        if not receive_item_name:
+            return
+
+        if not frappe.db.exists("Receive Item", receive_item_name):
+            return
+
+        amount_to_set = frappe.db.get_value(
+            "Job Cards",
+            {"receive_item": receive_item_name, "docstatus": 1},
+            "total_amount",
+            order_by="modified desc",
+        )
+
+        if amount_to_set is None and clear_when_missing:
+            amount_to_set = None
+        elif amount_to_set is None:
+            amount_to_set = self.total_amount
+
+        try:
+            frappe.db.set_value(
+                "Receive Item",
+                receive_item_name,
+                "amount",
+                amount_to_set,
+                update_modified=False,
+            )
+        except Exception as exc:
+            if "Unknown column 'amount'" in str(exc):
+                return
+            raise
 
     def update_receive_item_pickup_status(self):
         receive_item_name = self.receive_item
